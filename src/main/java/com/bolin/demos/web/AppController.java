@@ -16,6 +16,7 @@
 
 package com.bolin.demos.web;
 
+import com.bolin.group1.MiDengXIng.XueHuaSuanfa.XueHuaSuanfa1;
 import com.bolin.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AppController {
    @Autowired
    AppService appService;
+
+
+   @Autowired
+   XueHuaSuanfa1 xueHuaSuanfa1;
 
     // http://127.0.0.1:8080/hello?name=lisi
     @RequestMapping("/hello")

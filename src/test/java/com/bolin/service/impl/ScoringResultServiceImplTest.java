@@ -13,6 +13,8 @@ class ScoringResultServiceImplTest {
     @Autowired
     private ScoringResultService scoringResultService;
 
+
+
     @Test
     public  void test1(){
         scoringResultService.test1();
