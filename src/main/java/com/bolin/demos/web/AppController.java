@@ -29,7 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
  */
 @Controller
-public class BasicController {
+@RequestMapping("/app")
+public class AppController {
    @Autowired
    AppService appService;
 
@@ -39,6 +40,21 @@ public class BasicController {
     public String hello(@RequestParam(name = "name", defaultValue = "unknown user") String name) {
         return "Hello " + name;
     }
+
+    @RequestMapping("/transactional")
+    @ResponseBody
+    public String transactional(@RequestParam(name = "name", defaultValue = "unknown user") String name) {
+        try {
+            appService.transacionalTest();
+        }catch (Exception e){
+            System.out.println(e);
+            return  e.toString();
+        }
+
+        return  "test";
+    }
+
+
 
     // http://127.0.0.1:8080/user
     @RequestMapping("/user")
