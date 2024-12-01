@@ -31,9 +31,8 @@
 
 
 
-        <collection property="questionList" ofType="com.bolin.pojo.Question"  resultMap="QuestionResultMap">
+        <collection property="questionList" ofType="com.bolin.pojo.Question"  resultMap="QuestionResultMap"/>
 
-        </collection>
 
         <collection property="questionContent" ofType="java.lang.String">
                 <result column="questionContent"/>
@@ -45,7 +44,8 @@
 <!--        <result column="questionContent"/>-->
 <!--    </collection>-->
     <resultMap id="QuestionResultMap" type="com.bolin.pojo.Question">
-        <id property="id" column="id" jdbcType="BIGINT"/>
+<!--        <id property="id" column="id" jdbcType="BIGINT"/>-->
+        <id property="id" column="questionId" jdbcType="BIGINT"/>
         <result property="questioncontent" column="questionContent" jdbcType="VARCHAR"/>
         <result property="appid" column="appId" jdbcType="BIGINT"/>
         <result property="userid" column="userId" jdbcType="BIGINT"/>

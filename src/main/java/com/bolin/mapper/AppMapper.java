@@ -16,7 +16,7 @@ import java.util.List;
 * @Entity com.bolin.pojo.App
 */
 public interface AppMapper extends BaseMapper<App> {
-    @Select("SELECT  app.id,app.appName ,question.id,question.questionContent,question.createTime,user.id,user.userPassword\n" +
+    @Select("SELECT  app.id as id,app.appName ,question.id as questionId,question.questionContent,question.createTime,user.id,user.userPassword\n" +
             "from app\n" +
             "    join yudada.question on  app.id=question.appId\n" +
             "    join yudada.user on app.userId=user.id\n" +
