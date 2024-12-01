@@ -1,5 +1,6 @@
 package com.bolin.demos.vo;
 
+import com.bolin.pojo.Question;
 import com.bolin.pojo.User;
 import lombok.Data;
 
@@ -13,6 +14,10 @@ public class AppVo1 {
      * 应用名
      */
     private String appName;
+
+    private  List<Question>  questionList;
+
+
 
     private List<String> questionContent;
 

@@ -28,10 +28,30 @@
         <result property="appName" column="appName"/>
         <!-- 处理 User 对象的嵌套映射 -->
         <association property="user" resultMap="UserResultMap"/>
-        <collection property="questionContent" ofType="java.lang.String">
-            <result column="questionContent"/>
+
+
+
+        <collection property="questionList" ofType="com.bolin.pojo.Question"  resultMap="QuestionResultMap">
+
         </collection>
 
+        <collection property="questionContent" ofType="java.lang.String">
+                <result column="questionContent"/>
+        </collection>
+
+    </resultMap>
+<!--先去掉这里的干扰-->
+<!--    <collection property="questionContent" ofType="java.lang.String">-->
+<!--        <result column="questionContent"/>-->
+<!--    </collection>-->
+    <resultMap id="QuestionResultMap" type="com.bolin.pojo.Question">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="questioncontent" column="questionContent" jdbcType="VARCHAR"/>
+        <result property="appid" column="appId" jdbcType="BIGINT"/>
+        <result property="userid" column="userId" jdbcType="BIGINT"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="isdelete" column="isDelete" jdbcType="TINYINT"/>
     </resultMap>
 
     <resultMap id="UserResultMap" type="com.bolin.pojo.User">
@@ -48,6 +68,8 @@
         <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
         <result property="isdelete" column="isDelete" jdbcType="TINYINT"/>
     </resultMap>
+
+
 
 
     <!-- 使用 resultMap 定义查询 -->
