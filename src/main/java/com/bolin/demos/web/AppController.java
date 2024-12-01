@@ -18,6 +18,7 @@ package com.bolin.demos.web;
 
 import com.bolin.group1.MiDengXIng.XueHuaSuanfa.XueHuaSuanfa1;
 import com.bolin.service.AppService;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,9 @@ public class AppController {
    @Autowired
    AppService appService;
 
+
+   @Autowired
+   RedissonClient redissonClient;
 
    @Autowired
    XueHuaSuanfa1 xueHuaSuanfa1;
