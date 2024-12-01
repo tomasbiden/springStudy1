@@ -26,10 +26,37 @@
     <resultMap id="AppVo1ResultMap" type="com.bolin.demos.vo.AppVo1">
         <result property="id" column="id"/>
         <result property="appName" column="appName"/>
+        <!-- 处理 User 对象的嵌套映射 -->
+        <association property="user" resultMap="UserResultMap"/>
         <collection property="questionContent" ofType="java.lang.String">
             <result column="questionContent"/>
         </collection>
+
     </resultMap>
+
+    <resultMap id="UserResultMap" type="com.bolin.pojo.User">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="useraccount" column="userAccount" jdbcType="VARCHAR"/>
+        <result property="userpassword" column="userPassword" jdbcType="VARCHAR"/>
+        <result property="unionid" column="unionId" jdbcType="VARCHAR"/>
+        <result property="mpopenid" column="mpOpenId" jdbcType="VARCHAR"/>
+        <result property="username" column="userName" jdbcType="VARCHAR"/>
+        <result property="useravatar" column="userAvatar" jdbcType="VARCHAR"/>
+        <result property="userprofile" column="userProfile" jdbcType="VARCHAR"/>
+        <result property="userrole" column="userRole" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="isdelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+
+    <!-- 使用 resultMap 定义查询 -->
+    <select id="selectTestByXml" resultMap="AppVo1ResultMap">
+        SELECT app.appName, app.id, question.questionContent
+        FROM yudada.app
+                 JOIN yudada.question ON app.id = question.appId
+        WHERE app.id >= #{userId}
+    </select>
 
     <sql id="Base_Column_List">
         id,appName,appDesc,

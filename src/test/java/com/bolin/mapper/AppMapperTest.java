@@ -16,6 +16,9 @@ class AppMapperTest {
     @Test
     void selectUserWithOrders() {
         List<AppVo1> appVo1s = appMapper.selectTest1(0l);
+        List<AppVo1> appVo1s1 = appMapper.selectTestByXml(0l);
+
+
         int h=1;
     }
 }

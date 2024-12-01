@@ -20,6 +20,8 @@ public interface AppMapper extends BaseMapper<App> {
     @ResultMap("AppVo1ResultMap")
     List<AppVo1> selectTest1(@Param("userId") Long userId);
 
+    List<AppVo1> selectTestByXml(@Param("userId") Long userId);
+
 }
 
 
