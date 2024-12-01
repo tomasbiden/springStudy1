@@ -1,4 +1,4 @@
-package com.bolin.config;
+package com.bolin.redis.config;
 
 import lombok.Data;
 import org.redisson.Redisson;

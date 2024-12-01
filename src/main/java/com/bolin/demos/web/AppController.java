@@ -16,12 +16,11 @@
 
 package com.bolin.demos.web;
 
-import com.bolin.group1.MiDengXIng.XueHuaSuanfa.XueHuaSuanfa1;
+import com.bolin.group1.MiDengXIng.XueHuaSuanfa.Snowflake;
 import com.bolin.service.AppService;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +40,7 @@ public class AppController {
    RedissonClient redissonClient;
 
    @Autowired
-   XueHuaSuanfa1 xueHuaSuanfa1;
+   Snowflake xueHuaSuanfa1;
 
     // http://127.0.0.1:8080/hello?name=lisi
     @RequestMapping("/hello")

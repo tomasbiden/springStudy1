@@ -2,10 +2,15 @@ package com.bolin.group1.springEvent;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 @Component
 public class AnotherUserRegisteredListener {
 //,condition = "#event.username='ceshi'"
+
+
+//    @TransactionalEventListener(classes = UserRegisteredEvent.class,condition ="event.ListenerName=='ceshi'",phase = TransactionPhase.AFTER_COMMIT)
     @EventListener(classes = UserRegisteredEvent.class,condition ="event.ListenerName=='ceshi'" )
     public void handleUserRegisteredEvent(UserRegisteredEvent event) {
         Long appId = event.getAppId();

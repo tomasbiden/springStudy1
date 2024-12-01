@@ -19,12 +19,13 @@ public class Produce {
     int h=3;
     @Transactional
    public  long test(){
+        App app1 = appMapper.selectById(1);
+        app1.setId((long)1511236569);
+//        applicationEventPublisher.publishEvent(new UserRegisteredEvent("ceshi", app1.getId()));
 
-
-            App app1 = appMapper.selectById(1);
-            app1.setId((long)1511236569);
             appMapper.insert(app1);
         applicationEventPublisher.publishEvent(new UserRegisteredEvent("ceshi", app1.getId()));
+
             return  app1.getId();
 //            throw new RuntimeException("ceshi");
             /*
