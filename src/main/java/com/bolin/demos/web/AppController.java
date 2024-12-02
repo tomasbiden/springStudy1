@@ -16,7 +16,9 @@
 
 package com.bolin.demos.web;
 
+import com.bolin.demos.vo.AppVo1;
 import com.bolin.group1.MiDengXIng.XueHuaSuanfa.Snowflake;
+import com.bolin.mapper.AppMapper;
 import com.bolin.service.AppService;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
  */
@@ -34,6 +38,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AppController {
    @Autowired
    AppService appService;
+
+   @Autowired
+   AppMapper appMapper;
 
 
    @Autowired
@@ -46,7 +53,8 @@ public class AppController {
     @RequestMapping("/hello")
     @ResponseBody
     public String hello(@RequestParam(name = "name", defaultValue = "unknown user") String name) {
-        return "Hello " + name;
+        List<AppVo1> appVo1s = appMapper.selectTest1(1l);
+        return appVo1s.toString();
     }
 
     @RequestMapping("/transactional")
