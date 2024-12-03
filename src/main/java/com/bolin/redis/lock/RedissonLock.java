@@ -21,7 +21,7 @@ public class RedissonLock {
 
         try {
             // 尝试加锁，最多等待10秒，锁定时间为5秒
-            boolean isLocked = lock.tryLock(10, 5, TimeUnit.SECONDS);
+            boolean isLocked = lock.tryLock(3, 15, TimeUnit.SECONDS);
             if (isLocked) {
                 System.out.println("成功获取锁！");
 
