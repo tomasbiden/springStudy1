@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-
+// 布隆过滤器
 @Component
 public class RedissonBloomFilterExample {
 

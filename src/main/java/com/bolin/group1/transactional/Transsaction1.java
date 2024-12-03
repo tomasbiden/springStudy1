@@ -7,14 +7,18 @@ import com.bolin.mapper.AppMapper;
 import com.bolin.pojo.App;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLException;
 
 @Component
 public class Transsaction1 {
     @Autowired
     AppMapper appMapper;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.REPEATABLE_READ,readOnly = false,timeout = 10,rollbackFor = {RuntimeException.class, SQLException.class})
     public void transactionTest1(){
 
         App app = appMapper.selectById(1l);
