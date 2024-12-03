@@ -2,11 +2,11 @@ package com.bolin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.bolin.demos.web.AppController;
+import com.bolin.mapper.AppMapper;
 import com.bolin.pojo.App;
 import com.bolin.service.AppService;
-import com.bolin.mapper.AppMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 * @description 针对表【app(应用)】的数据库操作Service实现
 * @createDate 2024-11-30 14:26:59
 */
-@Service("AppServiceImpl")
-public class AppServiceImpl extends ServiceImpl<AppMapper, App>
+@Service("AppServiceImplPortotype")
+@Scope(value = "prototype")
+public class AppServiceImplPortotype extends ServiceImpl<AppMapper, App>
     implements AppService{
     @Autowired
     private  AppMapper appMapper;

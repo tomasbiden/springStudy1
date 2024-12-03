@@ -20,6 +20,7 @@ import com.bolin.demos.vo.AppVo1;
 import com.bolin.group1.MiDengXIng.XueHuaSuanfa.Snowflake;
 import com.bolin.mapper.AppMapper;
 import com.bolin.service.AppService;
+import jakarta.annotation.Resource;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/app")
 public class AppController {
-   @Autowired
+   @Resource(name = "AppServiceImplPortotype")
    AppService appService;
 
    @Autowired

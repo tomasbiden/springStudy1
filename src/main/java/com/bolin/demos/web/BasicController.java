@@ -17,6 +17,7 @@
 package com.bolin.demos.web;
 
 import com.bolin.service.AppService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class BasicController {
-   @Autowired
+    @Resource(name = "AppServiceImplPortotype")
    AppService appService;
 
     // http://127.0.0.1:8080/hello?name=lisi
