@@ -24,10 +24,7 @@ import jakarta.annotation.Resource;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,8 +33,9 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/app")
+@ControllerAdvice
 public class AppController {
-   @Resource(name = "appServiceImplPortotype")
+
    AppService appService;
 
    @Autowired
@@ -53,6 +51,7 @@ public class AppController {
     // http://127.0.0.1:8080/hello?name=lisi
     @RequestMapping("/hello")
     @ResponseBody
+    @ExceptionHandler
     public String hello(@RequestParam(name = "name", defaultValue = "unknown user") String name) {
         List<AppVo1> appVo1s = appMapper.selectTest1(1l);
         return appVo1s.toString();
