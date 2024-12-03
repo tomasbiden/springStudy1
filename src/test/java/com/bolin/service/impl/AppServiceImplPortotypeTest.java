@@ -12,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AppServiceImplPortotypeTest {
-    @Resource(name = "AppServiceImpl")
+
+//    @Resource
+    @Resource(name = "appServiceImpl")
     AppService appServiceImpl;
 
-    @Resource(name = "AppServiceImplPortotype")
+    @Resource(name = "appServiceImplPortotype")
     AppService appServiceImplPortotype;
 
     @Autowired
@@ -24,8 +26,8 @@ class AppServiceImplPortotypeTest {
     void test1() {
 
         // 从 ApplicationContext 获取相同 Bean 的两个实例
-        Object appServiceImpl1 = context.getBean("AppServiceImpl");
-        Object appServiceImplPortotype1 = context.getBean("AppServiceImplPortotype");
+        Object appServiceImpl1 = context.getBean("appServiceImpl");
+        Object appServiceImplPortotype1 = context.getBean("appServiceImplPortotype");
 
 
 

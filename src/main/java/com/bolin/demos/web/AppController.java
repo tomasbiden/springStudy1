@@ -37,7 +37,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/app")
 public class AppController {
-   @Resource(name = "AppServiceImplPortotype")
+   @Resource(name = "appServiceImplPortotype")
    AppService appService;
 
    @Autowired

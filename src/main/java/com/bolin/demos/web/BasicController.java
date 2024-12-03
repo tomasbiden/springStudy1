@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class BasicController {
-    @Resource(name = "AppServiceImplPortotype")
+    @Resource(name = "appServiceImplPortotype")
    AppService appService;
 
     // http://127.0.0.1:8080/hello?name=lisi

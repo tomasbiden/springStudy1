@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 * @description 针对表【app(应用)】的数据库操作Service实现
 * @createDate 2024-11-30 14:26:59
 */
-@Service("AppServiceImplPortotype")
+@Service
 @Scope(value = "prototype")
 public class AppServiceImplPortotype extends ServiceImpl<AppMapper, App>
     implements AppService{
