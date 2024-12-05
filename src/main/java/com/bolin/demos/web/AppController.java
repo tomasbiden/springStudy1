@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/app")
-@ControllerAdvice
+//@ControllerAdvice
 public class AppController {
 
    AppService appService;
@@ -51,7 +51,7 @@ public class AppController {
     // http://127.0.0.1:8080/hello?name=lisi
     @RequestMapping("/hello")
     @ResponseBody
-    @ExceptionHandler
+//    @ExceptionHandler
     public String hello(@RequestParam(name = "name", defaultValue = "unknown user") String name) {
         List<AppVo1> appVo1s = appMapper.selectTest1(1l);
         return appVo1s.toString();
