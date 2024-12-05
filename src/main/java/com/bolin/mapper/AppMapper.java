@@ -3,9 +3,11 @@ package com.bolin.mapper;
 import com.bolin.demos.vo.AppVo1;
 import com.bolin.pojo.App;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
+import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
 * @createDate 2024-11-30 14:26:59
 * @Entity com.bolin.pojo.App
 */
+@Mapper
 public interface AppMapper extends BaseMapper<App> {
     @Select("SELECT  app.id as id,app.appName ,question.id as questionId,question.questionContent,question.createTime,user.id,user.userPassword\n" +
             "from app\n" +
