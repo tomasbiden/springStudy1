@@ -15,4 +15,6 @@ public interface AppService extends IService<App> {
 
     public  void appJoinTest();
 
+    public void queryWrapperSql();
+
 }

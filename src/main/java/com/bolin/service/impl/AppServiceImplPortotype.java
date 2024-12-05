@@ -55,6 +55,11 @@ public class AppServiceImplPortotype extends ServiceImpl<AppMapper, App>
 
     }
 
+    @Override
+    public void queryWrapperSql() {
+
+    }
+
 }
 
 

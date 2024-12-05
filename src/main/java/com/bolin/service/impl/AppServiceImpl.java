@@ -1,5 +1,6 @@
 package com.bolin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bolin.demos.web.AppController;
@@ -9,6 +10,8 @@ import com.bolin.mapper.AppMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
 * @author Administrator
@@ -51,6 +54,18 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>
     public void appJoinTest() {
         QueryWrapper<App> appQueryWrapper = new QueryWrapper<>();
 
+
+    }
+
+    public void queryWrapperSql(){
+        QueryWrapper<App> appQueryWrapper = new QueryWrapper<>();
+        appQueryWrapper.ge("id",1);
+        String string = appQueryWrapper.toString();
+        List<App> apps = appMapper.selectList(appQueryWrapper);
+
+
+
+        int h=1;
 
     }
 
