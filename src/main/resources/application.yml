@@ -7,6 +7,14 @@ spring:
     url: jdbc:p6spy:mysql://localhost:3306/yudada
     username: root
     password: 1234
+    .data:
+      redis:
+        database: 1
+        host: localhost
+        port: 6379
+        timeout: 5000
+    aop:
+      proxy-target-class: false
 decorator:
   datasource:
     p6spy:
@@ -16,13 +24,12 @@ decorator:
       logging: custom
       custom-appender-class: com.bolin.group1.log.StdoutLogger
 
-  .data:
-    redis:
-      database: 1
-      host: localhost
-      port: 6379
-      timeout: 5000
-  aop:
-    proxy-target-class: false
+logging:
+  level:
+    root: INFO  # 设置根日志级别为INFO
+  file:
+    name: logs/application.log  # 指定日志文件存储路径
+
+
 server:
   port: 8080
