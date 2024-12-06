@@ -1,0 +1,17 @@
+
+spring:
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://sh-cynosdbmysql-grp-0vubr94s.sql.tencentcdb.com:22530/yudada
+    username: root
+    password: NtJk5p2m
+  .data:
+    redis:
+      database: 1
+      host: localhost
+      port: 6379
+      timeout: 5000
+  aop:
+    proxy-target-class: false
+server:
+  port: 8080
