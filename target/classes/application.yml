@@ -1,12 +1,21 @@
 
 spring:
   profiles:
-    active: dev #指定 环境配置
+    active: dev2 #指定 环境配置
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yudada
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://localhost:3306/yudada
     username: root
     password: 1234
+decorator:
+  datasource:
+    p6spy:
+      # 日志格式
+      log-format: "\ntime:%(executionTime) || sql:%(sql)\n || Thread: %(threadName)\n"
+      # 自定义日志类
+      logging: custom
+      custom-appender-class: com.bolin.group1.log.StdoutLogger
+
   .data:
     redis:
       database: 1
