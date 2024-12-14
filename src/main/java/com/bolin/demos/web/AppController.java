@@ -36,9 +36,10 @@ import java.util.List;
 //@ControllerAdvice
 public class AppController {
 
-   AppService appService;
+    @Autowired
+   AppService appServiceImpl;
 
-   @Autowired
+   @Resource
    AppMapper appMapper;
 
 
@@ -61,7 +62,7 @@ public class AppController {
     @ResponseBody
     public String transactional(@RequestParam(name = "name", defaultValue = "unknown user") String name) {
         try {
-            appService.transacionalTest();
+            appServiceImpl.transacionalTest();
         }catch (Exception e){
             System.out.println(e);
             return  e.toString();
@@ -79,7 +80,7 @@ public class AppController {
         User user = new User();
         user.setName("theonefx");
         user.setAge(666);
-        appService.test1();
+        appServiceImpl.test1();
         return user;
     }
 

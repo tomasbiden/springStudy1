@@ -17,7 +17,7 @@ import java.util.List;
 * @createDate 2024-11-30 14:26:59
 * @Entity com.bolin.pojo.App
 */
-@Mapper
+//@Mapper
 public interface AppMapper extends BaseMapper<App> {
     @Select("SELECT  app.id as id,app.appName ,question.id as questionId,question.questionContent,question.createTime,user.id,user.userPassword\n" +
             "from app\n" +

@@ -7,6 +7,7 @@ import com.bolin.demos.web.AppController;
 import com.bolin.pojo.App;
 import com.bolin.service.AppService;
 import com.bolin.mapper.AppMapper;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ import java.util.List;
 @Service
 public class AppServiceImpl extends ServiceImpl<AppMapper, App>
     implements AppService{
-    @Autowired
+    @Resource
     private  AppMapper appMapper;
 
 
@@ -61,9 +62,9 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>
         QueryWrapper<App> appQueryWrapper = new QueryWrapper<>();
         appQueryWrapper.ge("id",1);
         String string = appQueryWrapper.toString();
+//        两种利用mapper方式
         List<App> apps = appMapper.selectList(appQueryWrapper);
-
-
+        List<App> list = this.list(appQueryWrapper);
 
         int h=1;
 

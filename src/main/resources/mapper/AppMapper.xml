@@ -77,7 +77,11 @@
         SELECT app.appName, app.id, question.questionContent
         FROM yudada.app
                  JOIN yudada.question ON app.id = question.appId
-        WHERE app.id >= #{userId}
+        <where>
+            <if test="userId != null">
+                AND app.id >= #{userId}
+            </if>
+        </where>
     </select>
 
     <sql id="Base_Column_List">
