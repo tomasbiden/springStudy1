@@ -7,6 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+      </profile>
+      <profile name="Annotation profile for sprintStudy1" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/study software install/2/maven/mvn-repo/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
+          <entry name="D:/study software install/2/maven/mvn-repo/org/mapstruct/mapstruct-processor/1.5.2.Final/mapstruct-processor-1.5.2.Final.jar" />
+          <entry name="D:/study software install/2/maven/mvn-repo/org/mapstruct/mapstruct/1.5.2.Final/mapstruct-1.5.2.Final.jar" />
+        </processorPath>
         <module name="sprintStudy1" />
       </profile>
     </annotationProcessing>

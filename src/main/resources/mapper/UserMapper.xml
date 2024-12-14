@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bolin.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="com.bolin.pojo.User">
+    <resultMap id="BaseResultMap" type="com.bolin.demos.pojo.User">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="useraccount" column="userAccount" jdbcType="VARCHAR"/>
             <result property="userpassword" column="userPassword" jdbcType="VARCHAR"/>

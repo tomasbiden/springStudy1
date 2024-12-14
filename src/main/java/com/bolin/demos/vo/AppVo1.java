@@ -1,7 +1,7 @@
 package com.bolin.demos.vo;
 
-import com.bolin.pojo.Question;
-import com.bolin.pojo.User;
+import com.bolin.demos.pojo.Question;
+import com.bolin.demos.pojo.User;
 import lombok.Data;
 
 import java.util.List;

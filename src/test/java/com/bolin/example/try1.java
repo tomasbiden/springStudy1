@@ -2,7 +2,7 @@ package com.bolin.example;
 
 import com.bolin.demos.web.AppController;
 import com.bolin.mapper.AppMapper;
-import com.bolin.pojo.App;
+import com.bolin.demos.pojo.App;
 import com.bolin.service.AppService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

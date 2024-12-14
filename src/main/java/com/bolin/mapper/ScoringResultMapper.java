@@ -1,6 +1,6 @@
 package com.bolin.mapper;
 
-import com.bolin.pojo.ScoringResult;
+import com.bolin.demos.pojo.ScoringResult;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

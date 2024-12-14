@@ -1,4 +1,4 @@
-package com.bolin.pojo;
+package com.bolin.demos.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -9,17 +9,42 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 评分结果
- * @TableName scoring_result
+ * 用户答题记录
+ * @TableName user_answer
  */
-@TableName(value ="scoring_result")
+@TableName(value ="user_answer")
 @Data
-public class ScoringResult implements Serializable {
+public class UserAnswer implements Serializable {
     /**
-     * id
+     * 
      */
     @TableId(type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 应用 id
+     */
+    private Long appid;
+
+    /**
+     * 应用类型（0-得分类，1-角色测评类）
+     */
+    private Integer apptype;
+
+    /**
+     * 评分策略（0-自定义，1-AI）
+     */
+    private Integer scoringstrategy;
+
+    /**
+     * 用户答案（JSON 数组）
+     */
+    private String choices;
+
+    /**
+     * 评分结果 id
+     */
+    private Long resultid;
 
     /**
      * 结果名称，如物流师
@@ -32,27 +57,17 @@ public class ScoringResult implements Serializable {
     private String resultdesc;
 
     /**
-     * 结果图片
+     * 结果图标
      */
     private String resultpicture;
 
     /**
-     * 结果属性集合 JSON，如 [I,S,T,J]
+     * 得分
      */
-    private String resultprop;
+    private Integer resultscore;
 
     /**
-     * 结果得分范围，如 80，表示 80及以上的分数命中此结果
-     */
-    private Integer resultscorerange;
-
-    /**
-     * 应用 id
-     */
-    private Long appid;
-
-    /**
-     * 创建用户 id
+     * 用户 id
      */
     private Long userid;
 
@@ -85,14 +100,17 @@ public class ScoringResult implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        ScoringResult other = (ScoringResult) that;
+        UserAnswer other = (UserAnswer) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getAppid() == null ? other.getAppid() == null : this.getAppid().equals(other.getAppid()))
+            && (this.getApptype() == null ? other.getApptype() == null : this.getApptype().equals(other.getApptype()))
+            && (this.getScoringstrategy() == null ? other.getScoringstrategy() == null : this.getScoringstrategy().equals(other.getScoringstrategy()))
+            && (this.getChoices() == null ? other.getChoices() == null : this.getChoices().equals(other.getChoices()))
+            && (this.getResultid() == null ? other.getResultid() == null : this.getResultid().equals(other.getResultid()))
             && (this.getResultname() == null ? other.getResultname() == null : this.getResultname().equals(other.getResultname()))
             && (this.getResultdesc() == null ? other.getResultdesc() == null : this.getResultdesc().equals(other.getResultdesc()))
             && (this.getResultpicture() == null ? other.getResultpicture() == null : this.getResultpicture().equals(other.getResultpicture()))
-            && (this.getResultprop() == null ? other.getResultprop() == null : this.getResultprop().equals(other.getResultprop()))
-            && (this.getResultscorerange() == null ? other.getResultscorerange() == null : this.getResultscorerange().equals(other.getResultscorerange()))
-            && (this.getAppid() == null ? other.getAppid() == null : this.getAppid().equals(other.getAppid()))
+            && (this.getResultscore() == null ? other.getResultscore() == null : this.getResultscore().equals(other.getResultscore()))
             && (this.getUserid() == null ? other.getUserid() == null : this.getUserid().equals(other.getUserid()))
             && (this.getCreatetime() == null ? other.getCreatetime() == null : this.getCreatetime().equals(other.getCreatetime()))
             && (this.getUpdatetime() == null ? other.getUpdatetime() == null : this.getUpdatetime().equals(other.getUpdatetime()))
@@ -104,12 +122,15 @@ public class ScoringResult implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getAppid() == null) ? 0 : getAppid().hashCode());
+        result = prime * result + ((getApptype() == null) ? 0 : getApptype().hashCode());
+        result = prime * result + ((getScoringstrategy() == null) ? 0 : getScoringstrategy().hashCode());
+        result = prime * result + ((getChoices() == null) ? 0 : getChoices().hashCode());
+        result = prime * result + ((getResultid() == null) ? 0 : getResultid().hashCode());
         result = prime * result + ((getResultname() == null) ? 0 : getResultname().hashCode());
         result = prime * result + ((getResultdesc() == null) ? 0 : getResultdesc().hashCode());
         result = prime * result + ((getResultpicture() == null) ? 0 : getResultpicture().hashCode());
-        result = prime * result + ((getResultprop() == null) ? 0 : getResultprop().hashCode());
-        result = prime * result + ((getResultscorerange() == null) ? 0 : getResultscorerange().hashCode());
-        result = prime * result + ((getAppid() == null) ? 0 : getAppid().hashCode());
+        result = prime * result + ((getResultscore() == null) ? 0 : getResultscore().hashCode());
         result = prime * result + ((getUserid() == null) ? 0 : getUserid().hashCode());
         result = prime * result + ((getCreatetime() == null) ? 0 : getCreatetime().hashCode());
         result = prime * result + ((getUpdatetime() == null) ? 0 : getUpdatetime().hashCode());
@@ -124,12 +145,15 @@ public class ScoringResult implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", appid=").append(appid);
+        sb.append(", apptype=").append(apptype);
+        sb.append(", scoringstrategy=").append(scoringstrategy);
+        sb.append(", choices=").append(choices);
+        sb.append(", resultid=").append(resultid);
         sb.append(", resultname=").append(resultname);
         sb.append(", resultdesc=").append(resultdesc);
         sb.append(", resultpicture=").append(resultpicture);
-        sb.append(", resultprop=").append(resultprop);
-        sb.append(", resultscorerange=").append(resultscorerange);
-        sb.append(", appid=").append(appid);
+        sb.append(", resultscore=").append(resultscore);
         sb.append(", userid=").append(userid);
         sb.append(", createtime=").append(createtime);
         sb.append(", updatetime=").append(updatetime);

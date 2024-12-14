@@ -1,13 +1,11 @@
 package com.bolin.mapper;
 
 import com.bolin.demos.vo.AppVo1;
-import com.bolin.pojo.App;
+import com.bolin.demos.pojo.App;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
-import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
 

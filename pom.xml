@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version> <!-- 使用最新的版本 -->
+            <version>1.18.22</version> <!-- 使用最新的版本 -->
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -74,6 +74,18 @@
             <artifactId>p6spy-spring-boot-starter</artifactId>
             <version>1.10.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.2.Final</version> <!-- 确保版本适配 JDK 17 -->
+        </dependency>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+
 
 
 
@@ -98,9 +110,22 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source> <!-- 使用 properties 中的 java.version -->
-                    <target>${java.version}</target> <!-- 使用 properties 中的 java.version -->
-                    <encoding>${project.build.sourceEncoding}</encoding> <!-- 使用 UTF-8 编码 -->
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <annotationProcessorPaths>
+
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.22</version> <!-- Lombok 版本 -->
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.2.Final</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>

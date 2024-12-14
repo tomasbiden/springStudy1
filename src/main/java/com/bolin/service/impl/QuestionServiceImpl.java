@@ -1,7 +1,7 @@
 package com.bolin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.bolin.pojo.Question;
+import com.bolin.demos.pojo.Question;
 import com.bolin.service.QuestionService;
 import com.bolin.mapper.QuestionMapper;
 import org.springframework.stereotype.Service;

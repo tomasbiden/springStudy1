@@ -1,6 +1,6 @@
 package com.bolin.service;
 
-import com.bolin.pojo.Student;
+import com.bolin.demos.pojo.Student;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

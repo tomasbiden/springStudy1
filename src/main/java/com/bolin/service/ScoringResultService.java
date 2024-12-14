@@ -1,6 +1,6 @@
 package com.bolin.service;
 
-import com.bolin.pojo.ScoringResult;
+import com.bolin.demos.pojo.ScoringResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

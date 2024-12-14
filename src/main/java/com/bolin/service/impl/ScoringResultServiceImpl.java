@@ -1,7 +1,7 @@
 package com.bolin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.bolin.pojo.ScoringResult;
+import com.bolin.demos.pojo.ScoringResult;
 import com.bolin.service.ScoringResultService;
 import com.bolin.mapper.ScoringResultMapper;
 import org.springframework.beans.factory.annotation.Autowired;

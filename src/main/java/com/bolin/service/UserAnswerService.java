@@ -1,6 +1,6 @@
 package com.bolin.service;
 
-import com.bolin.pojo.UserAnswer;
+import com.bolin.demos.pojo.UserAnswer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

@@ -1,6 +1,6 @@
 package com.bolin.mapper;
 
-import com.bolin.pojo.UserAnswer;
+import com.bolin.demos.pojo.UserAnswer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
