@@ -7,6 +7,7 @@ import com.bolin.exception.BusinessException;
 import com.bolin.model.dto.user.UserLoginRequest;
 import com.bolin.model.param.TestParam;
 import com.bolin.model.vo.LoginUserVO;
+import com.bolin.rpcService.TestService;
 import com.bolin.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,10 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    TestService testService;
+
+
     @RequestMapping("/test")
     public String test1(HttpServletRequest request, @RequestBody TestParam testParam) {
         // 获取客户端的 IP 地址
@@ -28,7 +33,7 @@ public class UserController {
 
         // 调用 service 层的方法
         userService.test1();
-
+        testService.test();
         // 返回结果并附带客户端 IP 地址
         return "Client IP: " + ipAddress + ", User List: " + userService.list().toString();
     }

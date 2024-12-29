@@ -85,8 +85,10 @@
             <version>1.0.2</version>
         </dependency>
 
-
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
 
 
 
@@ -97,6 +99,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2023.0.2</version> <!-- 根据你的 Spring Boot 版本选择合适的 Spring Cloud 版本 -->
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
