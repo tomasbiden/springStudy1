@@ -36,6 +36,8 @@ public class RedissonConfig {
                 .setAddress("redis://" + host + ":" + port)
                 .setDatabase(database)
                 .setPassword(password);
+        // 设置编码格式为 UTF-8
+        config.setCodec(new org.redisson.client.codec.StringCodec());
         return Redisson.create(config);
     }
 }
