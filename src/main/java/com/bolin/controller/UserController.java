@@ -32,8 +32,8 @@ public class UserController {
         String ipAddress = getClientIP(request);
 
         // 调用 service 层的方法
-        userService.test1();
-        testService.test();
+//        userService.test1();
+        testService.test(request);
         // 返回结果并附带客户端 IP 地址
         return "Client IP: " + ipAddress + ", User List: " + userService.list().toString();
     }
