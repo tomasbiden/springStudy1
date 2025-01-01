@@ -3,6 +3,7 @@ package com.bolin.redis.config;
 import lombok.Data;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.Config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,9 @@ public class RedissonConfig {
                 .setDatabase(database)
                 .setPassword(password);
         // 设置编码格式为 UTF-8
-        config.setCodec(new org.redisson.client.codec.StringCodec());
+//        config.setCodec(new org.redisson.client.codec.StringCodec());
+//
+//        config.setCodec(new JsonJacksonCodec());
         return Redisson.create(config);
     }
 }

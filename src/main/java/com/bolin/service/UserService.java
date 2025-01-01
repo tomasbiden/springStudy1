@@ -111,4 +111,10 @@ public interface UserService extends IService<User> {
      * @return
      */
     QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
+
+    public void addUserSession(String userId, String sessionId);
+    public String getSessionId(String userId);
+
+    public void removeUserSession(String userId);
+
 }

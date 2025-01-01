@@ -10,11 +10,12 @@ import com.bolin.model.param.LoginParam;
 import com.bolin.model.pojo.User;
 import com.bolin.model.vo.LoginUserVO;
 import com.bolin.model.vo.UserVO;
+import com.bolin.redis.utils.Detail;
+import com.bolin.redis.utils.SessionIpManager;
 import com.bolin.service.UserService;
 import com.bolin.mapper.UserMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
-import org.redisson.api.RBucket;
 import org.redisson.api.RList;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +41,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
     @Autowired
     RedissonClient redissonClient;
+    public static final String SESSION_HASH_NAME = "UserIdSessionIdMap";
+
+    @Autowired
+    SessionIpManager sessionIpManager;
     @Override
     public void test1() {
         // 获取 Redis 中的 HashMap (RMap)
@@ -144,6 +150,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
         // 3. 记录用户的登录态
+        String requestedSessionId = request.getRequestedSessionId();
+        if(requestedSessionId==null){
+            sessionIpManager.addSessionIdToAccount(userAccount,request.getSession().getId());
+            Detail detail = new Detail();
+            detail.setUserName(user.getUserName());
+            detail.setCount(1L);
+            detail.setCreateDate(System.currentTimeMillis());
+            detail.setExpireDate(System.currentTimeMillis()+1000l);
+            detail.setLastAccessDate(System.currentTimeMillis());
+            sessionIpManager.addOrUpdateDetail(request.getSession().getId(),detail);
+        }else {
+            Detail detailById = sessionIpManager.getDetailById(requestedSessionId);
+            detailById.setCount(detailById.getCount()+1);
+            detailById.setLastAccessDate(System.currentTimeMillis());
+            sessionIpManager.addOrUpdateDetail(requestedSessionId,detailById);
+        }
+
+
+
+
         request.getSession().setAttribute(USER_LOGIN_STATE, user);
         return this.getLoginUserVO(user);
     }
@@ -280,6 +306,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
          */
         return null;
+    }
+
+    // 将 userId 和 sessionId 存入 Redis 的 Hash 类型
+    public void addUserSession(String userId, String sessionId) {
+        // 获取 Redis 中的 Hash 对象
+        RMap<String, String> sessionMap = redissonClient.getMap(SESSION_HASH_NAME);
+        // 添加键值对
+        sessionMap.put(userId, sessionId);
+    }
+
+    // 根据 userId 获取 sessionId
+    public String getSessionId(String userId) {
+        RMap<String, String> sessionMap = redissonClient.getMap(SESSION_HASH_NAME);
+        return sessionMap.get(userId);
+    }
+
+    // 删除指定 userId 的会话
+    public void removeUserSession(String userId) {
+        RMap<String, String> sessionMap = redissonClient.getMap(SESSION_HASH_NAME);
+        sessionMap.remove(userId);
     }
 }
 

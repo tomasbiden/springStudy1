@@ -1,5 +1,6 @@
 package com.bolin.client;
 
+import com.bolin.common.BaseResponse;
 import com.bolin.model.dto.app.AppQueryRequest;
 import com.bolin.model.vo.AppVO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,4 +20,8 @@ public interface AFeignClient {
 
     @PostMapping("/postTest")
     public AppVO postTest(@RequestBody AppQueryRequest appQueryRequest);
+
+    @GetMapping("/get/vo2")
+    public String getAppVOById2(@RequestParam("id")long id);
+
 }
