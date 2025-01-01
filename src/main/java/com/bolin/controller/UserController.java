@@ -67,8 +67,50 @@ public class UserController {
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
-        return ResultUtils.success(loginUserVO);
+        BaseResponse<LoginUserVO> loginUserVO = userService.userLogin(userAccount, userPassword, request);
+        return loginUserVO;
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param userLoginRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/login3")
+    public BaseResponse<LoginUserVO> userLogin3(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+        if (userLoginRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        String userAccount = userLoginRequest.getUserAccount();
+        String userPassword = userLoginRequest.getUserPassword();
+        if (StringUtils.isAnyBlank(userAccount, userPassword)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        BaseResponse<LoginUserVO> loginUserVO = userService.userLogin(userAccount, userPassword, request);
+
+        return loginUserVO;
+    }
+
+    @RequestMapping("/getCount")
+    public String getCount(HttpServletRequest request) {
+
+        if(request.getRequestedSessionId()==null){
+            return new String("你还未登陆");
+        }else {
+            return userService.getCount(request.getRequestedSessionId());
+        }
+    }
+
+    @PostMapping("/remove")
+    public void remove( HttpServletRequest request) {
+        if(request.getRequestedSessionId()==null){
+            return;
+        }
+        userService.redisRemove(request.getRequestedSessionId());
+
+        return;
     }
 
 

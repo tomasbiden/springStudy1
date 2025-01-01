@@ -3,7 +3,9 @@ package com.bolin.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bolin.common.BaseResponse;
 import com.bolin.common.ErrorCode;
+import com.bolin.common.ResultUtils;
 import com.bolin.exception.BusinessException;
 import com.bolin.model.dto.user.UserQueryRequest;
 import com.bolin.model.param.LoginParam;
@@ -24,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -126,7 +127,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request) {
+    public BaseResponse<LoginUserVO > userLogin(String userAccount, String userPassword, HttpServletRequest request) {
         // 1. 校验
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
@@ -151,27 +152,44 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
         // 3. 记录用户的登录态
         String requestedSessionId = request.getRequestedSessionId();
-        if(requestedSessionId==null){
+        if(requestedSessionId==null||sessionIpManager.getDetailById(requestedSessionId)==null){
+
             sessionIpManager.addSessionIdToAccount(userAccount,request.getSession().getId());
             Detail detail = new Detail();
             detail.setUserName(user.getUserName());
+            detail.setUserAccount(user.getUserAccount());
             detail.setCount(1L);
             detail.setCreateDate(System.currentTimeMillis());
-            detail.setExpireDate(System.currentTimeMillis()+1000l);
+            detail.setExpireDate(System.currentTimeMillis()+30000l);
             detail.setLastAccessDate(System.currentTimeMillis());
             sessionIpManager.addOrUpdateDetail(request.getSession().getId(),detail);
         }else {
+
             Detail detailById = sessionIpManager.getDetailById(requestedSessionId);
             detailById.setCount(detailById.getCount()+1);
+            detailById.setExpireDate(System.currentTimeMillis()+30000l);
             detailById.setLastAccessDate(System.currentTimeMillis());
             sessionIpManager.addOrUpdateDetail(requestedSessionId,detailById);
         }
+/*
+        if(sessionIpManager.getAllSessionIds().size()>1){
+            List<String> allSessionIds = sessionIpManager.getAllSessionIds();
+            for (String sessionId : allSessionIds) {
+                if(sessionId!=request.getSession().getId()){
+
+                }
+            }
 
 
+        }
+
+ */
+        if(sessionIpManager.getAllSessionIds().size()>1){
+           return  ResultUtils.success(this.getLoginUserVO(user),100);
+        }
 
 
-        request.getSession().setAttribute(USER_LOGIN_STATE, user);
-        return this.getLoginUserVO(user);
+        return ResultUtils.success(this.getLoginUserVO(user));
     }
 
     /**
@@ -326,6 +344,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public void removeUserSession(String userId) {
         RMap<String, String> sessionMap = redissonClient.getMap(SESSION_HASH_NAME);
         sessionMap.remove(userId);
+    }
+
+    @Override
+    public String getCount(String requestedSessionId) {
+        Detail detailById = sessionIpManager.getDetailById(requestedSessionId);
+
+        if(detailById==null||System.currentTimeMillis()>detailById.getExpireDate()){
+            return  new String("请重新登陆");
+        }else {
+            Long count = detailById.getCount();
+            detailById.setCount(count+1);
+            sessionIpManager.addOrUpdateDetail(requestedSessionId,detailById);
+
+            return new String("Welcome"+detailById.getUserName()+count);
+        }
+
+
+
+
+    }
+
+    @Override
+    public void redisRemove(String requestedSessionId) {
+        if(sessionIpManager.getAllSessionIds().size()<=1){
+            return;
+        }else {
+            for (String sessionId : sessionIpManager.getAllSessionIds()) {
+                if(sessionId.equals(requestedSessionId)) {
+                    continue;
+                }else{
+                    Detail detailById = sessionIpManager.getDetailById(requestedSessionId);
+                    sessionIpManager.removeSessionIdFromAccount(detailById.getUserAccount(),sessionId);
+                    sessionIpManager.removeDetail(sessionId);
+                }
+            }
+        }
     }
 }
 

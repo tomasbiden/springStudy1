@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Count</title>
+    <script>
+        // 这个函数会在页面加载时运行，并向后端请求当前会话的 count
+        function checkSession() {
+            // 使用 fetch 发起 GET 请求到后端的 /user/getCount 接口
+            fetch("/user/getCount", {
+                method: "GET", // 使用 GET 请求
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "same-origin" // 使请求带上 Cookie（包括 JSESSIONID）
+            })
+                .then(response => response.text()) // 解析响应为文本
+                .then(data => {
+                    if (data === "请重新登陆") {
+                        // 如果返回的是 "请重新登陆"，显示重新登录按钮
+                        document.getElementById("result").innerHTML = `
+                            <p>请重新登陆。</p>
+                            <button onclick="window.location.href='/login.html'">点击这里重新登录</button>
+                        `;
+                    } else {
+                        // 如果返回的是其他信息（如 count），则显示该信息
+                        document.getElementById("result").innerText = data;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("result").innerText = "请求失败，请稍后重试: " + error.message;
+                });
+        }
+
+        // 页面加载时触发检查会话函数
+        window.onload = checkSession;
+    </script>
+</head>
+<body>
+
+<h1>会话状态</h1>
+<div id="result">加载中...</div>
+
+</body>
+</html>

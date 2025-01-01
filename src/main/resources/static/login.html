@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +12,7 @@
     <input type="text" id="userAccount" name="userAccount" required>
     <br><br>
     <label for="userPassword">userPassword:</label>
-    <input type="userPassword" id="userPassword" name="userPassword" required>
+    <input type="password" id="userPassword" name="userPassword" required>
     <br><br>
     <button type="submit">Login</button>
 </form>
@@ -33,9 +32,42 @@
             body: JSON.stringify({ userAccount, userPassword }),
         });
 
-        const result = await response.text();
-        alert(result); // 显示服务器返回的结果
+        if (response.status === 200) {  // 判断状态码是否为 200 (登录成功)
+            const result = await response.json(); // 假设服务器返回的是 JSON 格式
+            if (result.code === 0) {
+                // 登录成功，跳转到 getCount.html 页面
+                window.location.href = "getCount.html";
+            } else if (result.code === 100) {
+                // 弹出确认框，询问用户是否继续登录
+                const userChoice = window.confirm("你已在别处登陆，是否禁止异地登陆");
+
+                if (userChoice) {
+                    // 用户选择了“是”，执行发起 POST 请求
+                    const postResponse = await fetch("/user/remove", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({}), // 传递必要的参数
+                    });
+
+                    if (postResponse.status === 200) {
+                        alert("禁止异地登陆成功！");
+                        window.location.href = "getCount.html"; // 重定向到 getCount 页面
+                    } else {
+                        alert("禁止失败");
+                    }
+                } else {
+                    // 用户选择了“否”，什么都不做
+                    alert("操作已取消");
+                }
+            } else {
+                // 如果返回的 code 不是 0 或 100，表示登录失败
+                alert("登录失败，用户名为空或密码错误！");
+            }
+        }
     });
 </script>
 </body>
 </html>
+

@@ -19,6 +19,10 @@ public class ResultUtils {
         return new BaseResponse<>(0, data, "ok");
     }
 
+    public static <T> BaseResponse<T> success(T data,int code) {
+        return new BaseResponse<>(code, data, "ok");
+    }
+
     /**
      * 失败
      *

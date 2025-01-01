@@ -1,6 +1,7 @@
 package com.bolin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.bolin.common.BaseResponse;
 import com.bolin.model.dto.user.UserQueryRequest;
 import com.bolin.model.param.LoginParam;
 import com.bolin.model.pojo.User;
@@ -39,7 +40,7 @@ public interface UserService extends IService<User> {
      * @param request
      * @return 脱敏后的用户信息
      */
-    LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request);
+    BaseResponse<LoginUserVO> userLogin(String userAccount, String userPassword, HttpServletRequest request);
 
     /**
      * 获取当前登录用户
@@ -117,4 +118,7 @@ public interface UserService extends IService<User> {
 
     public void removeUserSession(String userId);
 
+    String getCount(String requestedSessionId);
+
+    void redisRemove(String requestedSessionId);
 }
