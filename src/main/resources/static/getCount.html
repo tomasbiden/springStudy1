@@ -16,13 +16,38 @@
                 credentials: "same-origin" // 使请求带上 Cookie（包括 JSESSIONID）
             })
                 .then(response => response.text()) // 解析响应为文本
-                .then(data => {
+                .then(async data => {
                     if (data === "请重新登陆") {
                         // 如果返回的是 "请重新登陆"，显示重新登录按钮
                         document.getElementById("result").innerHTML = `
                             <p>请重新登陆。</p>
                             <button onclick="window.location.href='/login.html'">点击这里重新登录</button>
                         `;
+                    } else if (data === "他人正在登陆") {
+                        // 弹出确认框，询问用户是否继续登录
+                        const userChoice = window.confirm("他人正在登陆，是否禁止异地登陆");
+
+                        if (userChoice) {
+                            // 用户选择了“是”，执行发起 POST 请求
+                            const postResponse = await fetch("/user/remove", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({}), // 传递必要的参数
+                            });
+
+                            if (postResponse.status === 200) {
+                                alert("禁止异地登陆成功！");
+                                window.location.href = "getCount.html"; // 重定向到 getCount 页面
+                            } else {
+                                alert("禁止失败");
+                            }
+                        } else {
+                            // 用户选择了“否”，什么都不做
+                            alert("操作已取消");
+                        }
+
                     } else {
                         // 如果返回的是其他信息（如 count），则显示该信息
                         document.getElementById("result").innerText = data;

@@ -160,32 +160,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             detail.setUserAccount(user.getUserAccount());
             detail.setCount(1L);
             detail.setCreateDate(System.currentTimeMillis());
-            detail.setExpireDate(System.currentTimeMillis()+30000l);
+            detail.setExpireDate(System.currentTimeMillis()+300000l);
             detail.setLastAccessDate(System.currentTimeMillis());
             sessionIpManager.addOrUpdateDetail(request.getSession().getId(),detail);
         }else {
 
             Detail detailById = sessionIpManager.getDetailById(requestedSessionId);
             detailById.setCount(detailById.getCount()+1);
-            detailById.setExpireDate(System.currentTimeMillis()+30000l);
+            detailById.setExpireDate(System.currentTimeMillis()+300000l);
             detailById.setLastAccessDate(System.currentTimeMillis());
             sessionIpManager.addOrUpdateDetail(requestedSessionId,detailById);
         }
-/*
-        if(sessionIpManager.getAllSessionIds().size()>1){
-            List<String> allSessionIds = sessionIpManager.getAllSessionIds();
-            for (String sessionId : allSessionIds) {
-                if(sessionId!=request.getSession().getId()){
 
+        if(sessionIpManager.getAllSessionIds().size()<=1){
+
+        }else {
+            for (String sessionId : sessionIpManager.getAllSessionIds()) {
+                if(sessionId.equals(requestedSessionId)) {
+                    continue;
+                }else{
+//                    提示已经登陆者来禁止当前的登陆
+                    Detail detailById = sessionIpManager.getDetailById(requestedSessionId);
+                    detailById.setNeedCheck(true);
+                    sessionIpManager.addOrUpdateDetail(sessionId,detailById);
                 }
             }
-
-
-        }
-
- */
-        if(sessionIpManager.getAllSessionIds().size()>1){
-           return  ResultUtils.success(this.getLoginUserVO(user),100);
+//            提示登陆者来禁止别人的已经登陆
+            return  ResultUtils.success(this.getLoginUserVO(user),100);
         }
 
 
@@ -353,9 +354,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if(detailById==null||System.currentTimeMillis()>detailById.getExpireDate()){
             return  new String("请重新登陆");
         }else {
+
+
             Long count = detailById.getCount();
             detailById.setCount(count+1);
             sessionIpManager.addOrUpdateDetail(requestedSessionId,detailById);
+            if( detailById.getNeedCheck()!=null&&detailById.getNeedCheck()){
+
+                detailById.setNeedCheck(false);
+                sessionIpManager.addOrUpdateDetail(requestedSessionId,detailById);
+                return  new String("他人正在登陆");
+            }
 
             return new String("Welcome"+detailById.getUserName()+count);
         }

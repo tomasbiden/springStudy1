@@ -90,6 +90,13 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>3.3.2</version> <!-- 请使用最新的版本 -->
+        </dependency>
+
+
 
 
     </dependencies>

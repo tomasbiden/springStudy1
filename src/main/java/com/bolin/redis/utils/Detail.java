@@ -12,5 +12,6 @@ public class Detail implements Serializable {
     Long createDate;
     Long expireDate;
     Long lastAccessDate;
+    Boolean needCheck;
 
 }
