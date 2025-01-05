@@ -24,4 +24,6 @@ public interface AFeignClient {
     @GetMapping("/get/vo2")
     public String getAppVOById2(@RequestParam("id")long id);
 
+
+
 }

@@ -2,6 +2,7 @@ package com.bolin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bolin.demos.vo.AppWithUserAnswerVo;
 import com.bolin.mapper.AppMapper;
 import com.bolin.demos.pojo.App;
 import com.bolin.service.AppService;
@@ -58,6 +59,11 @@ public class AppServiceImplPortotype extends ServiceImpl<AppMapper, App>
     @Override
     public void queryWrapperSql() {
 
+    }
+
+    @Override
+    public AppWithUserAnswerVo getAppWithUserAnswerByAppId(Long AppId) {
+        return null;
     }
 
 }

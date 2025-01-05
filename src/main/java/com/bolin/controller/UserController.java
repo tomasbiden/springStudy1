@@ -26,14 +26,14 @@ public class UserController {
     TestService testService;
 
 
-    @RequestMapping("/test")
+    @PostMapping("/test")
     public String test1(HttpServletRequest request, @RequestBody TestParam testParam) {
         // 获取客户端的 IP 地址
         String ipAddress = getClientIP(request);
 
         // 调用 service 层的方法
 //        userService.test1();
-        testService.test(request);
+        testService.test(request,testParam);
         // 返回结果并附带客户端 IP 地址
         return "Client IP: " + ipAddress + ", User List: " + userService.list().toString();
     }

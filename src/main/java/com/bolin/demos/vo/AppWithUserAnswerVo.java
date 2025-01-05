@@ -1,18 +1,16 @@
-package com.bolin.demos.pojo;
+package com.bolin.demos.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.bolin.demos.pojo.UserAnswer;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-/**
- * 应用
- * @TableName app
- */
-@TableName(value ="app")
 @Data
-public class App implements Serializable {
+public class AppWithUserAnswerVo {
     /**
      * id
      */
@@ -85,6 +83,5 @@ public class App implements Serializable {
     @TableLogic
     private Integer isDelete;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+    private List<UserAnswer> userAnswerList;
 }

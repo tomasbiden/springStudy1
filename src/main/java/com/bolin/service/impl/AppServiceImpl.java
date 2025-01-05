@@ -2,9 +2,13 @@ package com.bolin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bolin.converter.struct.AppConverter;
 import com.bolin.demos.pojo.App;
+import com.bolin.demos.pojo.UserAnswer;
+import com.bolin.demos.vo.AppWithUserAnswerVo;
 import com.bolin.service.AppService;
 import com.bolin.mapper.AppMapper;
+import com.bolin.service.UserAnswerService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +25,9 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>
     implements AppService{
     @Resource
     private  AppMapper appMapper;
+
+    @Resource
+    private UserAnswerService userAnswerService;
 
 
 
@@ -64,6 +71,17 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>
         List<App> list = this.list(appQueryWrapper);
 
         int h=1;
+
+    }
+
+    @Override
+    public AppWithUserAnswerVo getAppWithUserAnswerByAppId(Long appId) {
+
+        App appById = this.getById(appId);
+        AppWithUserAnswerVo appWithUserAnserVo = AppConverter.INSTANCE.toAppWithUserAnserVo(appById);
+        List<UserAnswer> userAnswerByAppId = userAnswerService.getUserAnswerByAppId(appById.getId());
+        appWithUserAnserVo .setUserAnswerList(userAnswerByAppId);
+        return appWithUserAnserVo;
 
     }
 

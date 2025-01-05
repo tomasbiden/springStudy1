@@ -2,6 +2,7 @@ package com.bolin.service;
 
 import com.bolin.demos.pojo.App;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bolin.demos.vo.AppWithUserAnswerVo;
 
 /**
 * @author Administrator
@@ -16,5 +17,7 @@ public interface AppService extends IService<App> {
     public  void appJoinTest();
 
     public void queryWrapperSql();
+
+    public AppWithUserAnswerVo getAppWithUserAnswerByAppId(Long AppId);
 
 }

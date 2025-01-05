@@ -4,6 +4,7 @@ package com.bolin.rpcService;
 import com.bolin.client.AFeignClient;
 import com.bolin.common.BaseResponse;
 import com.bolin.model.dto.app.AppQueryRequest;
+import com.bolin.model.param.TestParam;
 import com.bolin.model.vo.AppVO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +22,7 @@ public class TestService {
     @Autowired
     ObjectMapper objectMapper;
 
-    public String test(HttpServletRequest httpServletRequest){
+    public String test(HttpServletRequest httpServletRequest, TestParam testParam){
 //        String dataFromA = aFeignClient.getDataFromA();
         long x=1;
 //        AppVO appVOById = aFeignClient.getAppVOById(x);
