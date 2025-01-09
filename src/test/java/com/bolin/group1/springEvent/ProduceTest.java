@@ -38,6 +38,7 @@ class ProduceTest {
             System.out.println("发生异常了啊，");
         }
         System.out.println("线程开始休息");
-        Thread.sleep(100000);
+//        阻塞package代码
+//        Thread.sleep(100000);
     }
 }

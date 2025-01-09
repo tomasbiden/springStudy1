@@ -40,6 +40,6 @@ public class RedissonBloomFilterExample {
         System.out.println("Contains 'item4': " + bloomFilter.contains("item4")); // false
 
         // 关闭 Redisson 客户端
-        redisson.shutdown();
+//        redisson.shutdown();
     }
 }

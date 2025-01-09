@@ -20,6 +20,7 @@ class LogisticsChannelServiceImplTest {
     Faker faker = new Faker();
     @Autowired
     LogisticsChannelService logisticsChannelService;
+
     @Test
     void save() {
 

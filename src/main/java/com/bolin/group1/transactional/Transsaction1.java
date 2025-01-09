@@ -25,8 +25,8 @@ public class Transsaction1 {
         appUpdateWrapper.eq("id",1).set("userId",2);
 
         appMapper.update(appUpdateWrapper);
-
-        appMapper.insert(app);
+//        去除阻塞pacakge代码
+//        appMapper.insert(app);
 
 
 

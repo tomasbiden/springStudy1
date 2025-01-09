@@ -7,6 +7,7 @@ public class DeadlockExample {
     private static final Object resource2 = new Object();
 
     public static void main(String[] args) throws InterruptedException {
+        /*
         // 创建两个线程
         Thread thread1 = new Thread(() -> {
             synchronized (resource1) { // 获取资源1的锁
@@ -36,5 +37,9 @@ public class DeadlockExample {
         thread1.start();
 //        thread2.start();
         Thread.sleep(100000);
+
+         */
+//        死锁测试
+        int h=1;
     }
 }

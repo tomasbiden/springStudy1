@@ -39,7 +39,7 @@ public class RedissonLock {
                 System.out.println("锁已释放！");
             }
             // 关闭 Redisson 客户端连接
-            redissonClient.shutdown();
+//            redissonClient.shutdown();
         }
 
 
