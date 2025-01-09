@@ -28,6 +28,7 @@ class RedisUtilsTest {
     RedissonClient redissonClient;
     @Test
     public  void test1() throws InterruptedException {
+        /*先注释掉为了package
         RedissonClient client =redissonClient;
         Config config = client.getConfig();
         RRateLimiter rateLimiter = client.getRateLimiter("test1");
@@ -44,7 +45,7 @@ class RedisUtilsTest {
 
         // 用一个列表来存储所有的 CompletableFuture
         CompletableFuture[] futures = new CompletableFuture[50];
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 50; i++) {
             ExecutorService tmpThreadPool;
             if(i%2==1){
                  tmpThreadPool=vipThreadPool1;
@@ -67,6 +68,8 @@ class RedisUtilsTest {
         }
         CompletableFuture.allOf(futures).join();
         System.out.println("全部完成了压");
+
+         */
 
 
 
