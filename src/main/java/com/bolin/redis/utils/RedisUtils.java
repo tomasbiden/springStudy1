@@ -5,7 +5,10 @@ import cn.hutool.extra.spring.SpringUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.redisson.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -25,10 +28,13 @@ import java.util.stream.Stream;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
+@Component
 public class RedisUtils {
 
-//    private static final RedissonClient CLIENT = ApplicationContext.getBean(RedissonClient.class);
-private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.class);
+//    private  final RedissonClient redissonClient = ApplicationContext.getBean(RedissonClient.class);
+    
+    @Autowired
+    RedissonClient redissonClient;
 
     /**
      * 限流
@@ -39,8 +45,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param rateInterval 速率间隔
      * @return -1 表示失败
      */
-    public static long rateLimiter(String key, RateType rateType, int rate, int rateInterval) {
-        RRateLimiter rateLimiter = CLIENT.getRateLimiter(key);
+    public  long rateLimiter(String key, RateType rateType, int rate, int rateInterval) {
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter(key);
         rateLimiter.trySetRate(rateType, rate, rateInterval, RateIntervalUnit.SECONDS);
         if (rateLimiter.tryAcquire()) {
             return rateLimiter.availablePermits();
@@ -51,17 +57,17 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
 
     public Boolean isRateLimiterExist(String key) {
 
-        RRateLimiter rateLimiter = CLIENT.getRateLimiter(key);
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter(key);
 
          return rateLimiter.isExists();
     }
 
 
-    public static long rateLimiterReBoot(String key,  RateType rateType, int count, int rateInterval){
+    public  long rateLimiterReBoot(String key,  RateType rateType, int count, int rateInterval){
         if(count <1){
             throw new RuntimeException();
         }
-        RRateLimiter rateLimiter = CLIENT.getRateLimiter(key);
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter(key);
 
         //如果不存在rateLimiter
         if(!rateLimiter.isExists()){
@@ -97,7 +103,7 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @Author: Sevin.Guan
      * @Date: 2024/7/24
      */
-    public static long rateLimiterReBoot(String key,  int count, int rateInterval){
+    public  long rateLimiterReBoot(String key,  int count, int rateInterval){
         return    rateLimiterReBoot(key,RateType.OVERALL,count,rateInterval);
     }
 
@@ -110,8 +116,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
     /**
      * 获取客户端实例
      */
-    public static RedissonClient getClient() {
-        return CLIENT;
+    public  RedissonClient getClient() {
+        return redissonClient;
     }
 
     /**
@@ -121,14 +127,14 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param msg        发送数据
      * @param consumer   自定义处理
      */
-    public static <T> void publish(String channelKey, T msg, Consumer<T> consumer) {
-        RTopic topic = CLIENT.getTopic(channelKey);
+    public  <T> void publish(String channelKey, T msg, Consumer<T> consumer) {
+        RTopic topic = redissonClient.getTopic(channelKey);
         topic.publish(msg);
         consumer.accept(msg);
     }
 
-    public static <T> void publish(String channelKey, T msg) {
-        RTopic topic = CLIENT.getTopic(channelKey);
+    public  <T> void publish(String channelKey, T msg) {
+        RTopic topic = redissonClient.getTopic(channelKey);
         topic.publish(msg);
     }
 
@@ -139,8 +145,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param clazz      消息类型
      * @param consumer   自定义处理
      */
-    public static <T> void subscribe(String channelKey, Class<T> clazz, Consumer<T> consumer) {
-        RTopic topic = CLIENT.getTopic(channelKey);
+    public  <T> void subscribe(String channelKey, Class<T> clazz, Consumer<T> consumer) {
+        RTopic topic = redissonClient.getTopic(channelKey);
         topic.addListener(clazz, (channel, msg) -> consumer.accept(msg));
     }
 
@@ -150,7 +156,7 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key   缓存的键值
      * @param value 缓存的值
      */
-    public static <T> void setCacheObject(final String key, final T value) {
+    public  <T> void setCacheObject(final String key, final T value) {
         setCacheObject(key, value, false);
     }
 
@@ -162,8 +168,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param isSaveTtl 是否保留TTL有效期(例如: set之前ttl剩余90 set之后还是为90)
      * @since Redis 6.X 以上使用 setAndKeepTTL 兼容 5.X 方案
      */
-    public static <T> void setCacheObject(final String key, final T value, final boolean isSaveTtl) {
-        RBucket<T> bucket = CLIENT.getBucket(key);
+    public  <T> void setCacheObject(final String key, final T value, final boolean isSaveTtl) {
+        RBucket<T> bucket = redissonClient.getBucket(key);
         if (isSaveTtl) {
             try {
                 bucket.setAndKeepTTL(value);
@@ -183,8 +189,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param value    缓存的值
      * @param duration 时间
      */
-    public static <T> void setCacheObject(final String key, final T value, final Duration duration) {
-        RBatch batch = CLIENT.createBatch();
+    public  <T> void setCacheObject(final String key, final T value, final Duration duration) {
+        RBatch batch = redissonClient.createBatch();
         RBucketAsync<T> bucket = batch.getBucket(key);
         bucket.setAsync(value);
         bucket.expireAsync(duration);
@@ -199,8 +205,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key      缓存的键值
      * @param listener 监听器配置
      */
-    public static <T> void addObjectListener(final String key, final ObjectListener listener) {
-        RBucket<T> result = CLIENT.getBucket(key);
+    public  <T> void addObjectListener(final String key, final ObjectListener listener) {
+        RBucket<T> result = redissonClient.getBucket(key);
         result.addListener(listener);
     }
 
@@ -211,7 +217,7 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param timeout 超时时间
      * @return true=设置成功；false=设置失败
      */
-    public static boolean expire(final String key, final long timeout) {
+    public  boolean expire(final String key, final long timeout) {
         return expire(key, Duration.ofSeconds(timeout));
     }
 
@@ -222,8 +228,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param duration 超时时间
      * @return true=设置成功；false=设置失败
      */
-    public static boolean expire(final String key, final Duration duration) {
-        RBucket rBucket = CLIENT.getBucket(key);
+    public  boolean expire(final String key, final Duration duration) {
+        RBucket rBucket = redissonClient.getBucket(key);
         return rBucket.expire(duration);
     }
 
@@ -233,8 +239,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key 缓存键值
      * @return 缓存键值对应的数据
      */
-    public static <T> T getCacheObject(final String key) {
-        RBucket<T> rBucket = CLIENT.getBucket(key);
+    public  <T> T getCacheObject(final String key) {
+        RBucket<T> rBucket = redissonClient.getBucket(key);
         return rBucket.get(); //这里会json 解码
     }
 
@@ -244,8 +250,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key 缓存键值
      * @return 剩余存活时间
      */
-    public static long getTimeToLive(final String key) {
-        RBucket rBucket = CLIENT.getBucket(key);
+    public  long getTimeToLive(final String key) {
+        RBucket rBucket = redissonClient.getBucket(key);
         return rBucket.remainTimeToLive();
     }
 
@@ -256,8 +262,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key 缓存键值
      * @return 剩余存活时间
      */
-    public static long getExpireTime(final String key) {
-        RBucket rBucket = CLIENT.getBucket(key);
+    public  long getExpireTime(final String key) {
+        RBucket rBucket = redissonClient.getBucket(key);
         return rBucket.getExpireTime();
     }
 
@@ -266,8 +272,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      *
      * @param key 缓存的键值
      */
-    public static boolean deleteObject(final String key) {
-        return CLIENT.getBucket(key).delete();
+    public  boolean deleteObject(final String key) {
+        return redissonClient.getBucket(key).delete();
     }
 
     /**
@@ -275,8 +281,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      *
      * @param collection 多个对象
      */
-    public static void deleteObject(final Collection collection) {
-        RBatch batch = CLIENT.createBatch();
+    public  void deleteObject(final Collection collection) {
+        RBatch batch = redissonClient.createBatch();
         collection.forEach(t -> {
             batch.getBucket(t.toString()).deleteAsync();
         });
@@ -288,8 +294,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      *
      * @param key 缓存的键值
      */
-    public static boolean isExistsObject(final String key) {
-        return CLIENT.getBucket(key).isExists();
+    public  boolean isExistsObject(final String key) {
+        return redissonClient.getBucket(key).isExists();
     }
 
     /**
@@ -299,8 +305,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param dataList 待缓存的List数据
      * @return 缓存的对象
      */
-    public static <T> boolean setCacheList(final String key, final List<T> dataList) {
-        RList<T> rList = CLIENT.getList(key);
+    public  <T> boolean setCacheList(final String key, final List<T> dataList) {
+        RList<T> rList = redissonClient.getList(key);
         return rList.addAll(dataList);
     }
 
@@ -312,8 +318,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key      缓存的键值
      * @param listener 监听器配置
      */
-    public static <T> void addListListener(final String key, final ObjectListener listener) {
-        RList<T> rList = CLIENT.getList(key);
+    public  <T> void addListListener(final String key, final ObjectListener listener) {
+        RList<T> rList = redissonClient.getList(key);
         rList.addListener(listener);
     }
 
@@ -323,8 +329,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key 缓存的键值
      * @return 缓存键值对应的数据
      */
-    public static <T> List<T> getCacheList(final String key) {
-        RList<T> rList = CLIENT.getList(key);
+    public  <T> List<T> getCacheList(final String key) {
+        RList<T> rList = redissonClient.getList(key);
         return rList.readAll();
     }
 
@@ -335,8 +341,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param dataSet 缓存的数据
      * @return 缓存数据的对象
      */
-    public static <T> boolean setCacheSet(final String key, final Set<T> dataSet) {
-        RSet<T> rSet = CLIENT.getSet(key);
+    public  <T> boolean setCacheSet(final String key, final Set<T> dataSet) {
+        RSet<T> rSet = redissonClient.getSet(key);
         return rSet.addAll(dataSet);
     }
 
@@ -348,8 +354,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key      缓存的键值
      * @param listener 监听器配置
      */
-    public static <T> void addSetListener(final String key, final ObjectListener listener) {
-        RSet<T> rSet = CLIENT.getSet(key);
+    public  <T> void addSetListener(final String key, final ObjectListener listener) {
+        RSet<T> rSet = redissonClient.getSet(key);
         rSet.addListener(listener);
     }
 
@@ -359,8 +365,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key 缓存的key
      * @return set对象
      */
-    public static <T> Set<T> getCacheSet(final String key) {
-        RSet<T> rSet = CLIENT.getSet(key);
+    public  <T> Set<T> getCacheSet(final String key) {
+        RSet<T> rSet = redissonClient.getSet(key);
         return rSet.readAll();
     }
 
@@ -370,9 +376,9 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key     缓存的键值
      * @param dataMap 缓存的数据
      */
-    public static <T> void setCacheMap(final String key, final Map<String, T> dataMap) {
+    public  <T> void setCacheMap(final String key, final Map<String, T> dataMap) {
         if (dataMap != null) {
-            RMap<String, T> rMap = CLIENT.getMap(key);
+            RMap<String, T> rMap = redissonClient.getMap(key);
             rMap.putAll(dataMap);
         }
     }
@@ -385,8 +391,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key      缓存的键值
      * @param listener 监听器配置
      */
-    public static <T> void addMapListener(final String key, final ObjectListener listener) {
-        RMap<String, T> rMap = CLIENT.getMap(key);
+    public  <T> void addMapListener(final String key, final ObjectListener listener) {
+        RMap<String, T> rMap = redissonClient.getMap(key);
         rMap.addListener(listener);
     }
 
@@ -396,8 +402,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key 缓存的键值
      * @return map对象
      */
-    public static <T> Map<String, T> getCacheMap(final String key) {
-        RMap<String, T> rMap = CLIENT.getMap(key);
+    public  <T> Map<String, T> getCacheMap(final String key) {
+        RMap<String, T> rMap = redissonClient.getMap(key);
         return rMap.getAll(rMap.keySet());
     }
 
@@ -407,8 +413,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key 缓存的键值
      * @return key列表
      */
-    public static <T> Set<String> getCacheMapKeySet(final String key) {
-        RMap<String, T> rMap = CLIENT.getMap(key);
+    public  <T> Set<String> getCacheMapKeySet(final String key) {
+        RMap<String, T> rMap = redissonClient.getMap(key);
         return rMap.keySet();
     }
 
@@ -419,8 +425,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param hKey  Hash键
      * @param value 值
      */
-    public static <T> void setCacheMapValue(final String key, final String hKey, final T value) {
-        RMap<String, T> rMap = CLIENT.getMap(key);
+    public  <T> void setCacheMapValue(final String key, final String hKey, final T value) {
+        RMap<String, T> rMap = redissonClient.getMap(key);
         rMap.put(hKey, value);
     }
 
@@ -431,8 +437,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param hKey Hash键
      * @return Hash中的对象
      */
-    public static <T> T getCacheMapValue(final String key, final String hKey) {
-        RMap<String, T> rMap = CLIENT.getMap(key);
+    public  <T> T getCacheMapValue(final String key, final String hKey) {
+        RMap<String, T> rMap = redissonClient.getMap(key);
         return rMap.get(hKey);
     }
 
@@ -443,8 +449,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param hKey Hash键
      * @return Hash中的对象
      */
-    public static <T> T delCacheMapValue(final String key, final String hKey) {
-        RMap<String, T> rMap = CLIENT.getMap(key);
+    public  <T> T delCacheMapValue(final String key, final String hKey) {
+        RMap<String, T> rMap = redissonClient.getMap(key);
         return rMap.remove(hKey);
     }
 
@@ -455,8 +461,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param hKeys Hash键集合
      * @return Hash对象集合
      */
-    public static <K, V> Map<K, V> getMultiCacheMapValue(final String key, final Set<K> hKeys) {
-        RMap<K, V> rMap = CLIENT.getMap(key);
+    public  <K, V> Map<K, V> getMultiCacheMapValue(final String key, final Set<K> hKeys) {
+        RMap<K, V> rMap = redissonClient.getMap(key);
         return rMap.getAll(hKeys);
     }
 
@@ -466,8 +472,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key   Redis键
      * @param value 值
      */
-    public static void setAtomicValue(String key, long value) {
-        RAtomicLong atomic = CLIENT.getAtomicLong(key);
+    public  void setAtomicValue(String key, long value) {
+        RAtomicLong atomic = redissonClient.getAtomicLong(key);
         atomic.set(value);
     }
 
@@ -477,8 +483,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key Redis键
      * @return 当前值
      */
-    public static long getAtomicValue(String key) {
-        RAtomicLong atomic = CLIENT.getAtomicLong(key);
+    public  long getAtomicValue(String key) {
+        RAtomicLong atomic = redissonClient.getAtomicLong(key);
         return atomic.get();
     }
 
@@ -488,8 +494,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key Redis键
      * @return 当前值
      */
-    public static long incrAtomicValue(String key) {
-        RAtomicLong atomic = CLIENT.getAtomicLong(key);
+    public  long incrAtomicValue(String key) {
+        RAtomicLong atomic = redissonClient.getAtomicLong(key);
         return atomic.incrementAndGet();
     }
 
@@ -499,8 +505,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param key Redis键
      * @return 当前值
      */
-    public static long decrAtomicValue(String key) {
-        RAtomicLong atomic = CLIENT.getAtomicLong(key);
+    public  long decrAtomicValue(String key) {
+        RAtomicLong atomic = redissonClient.getAtomicLong(key);
         return atomic.decrementAndGet();
     }
 
@@ -510,8 +516,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      * @param pattern 字符串前缀
      * @return 对象列表
      */
-    public static Collection<String> keys(final String pattern) {
-        Stream<String> stream = CLIENT.getKeys().getKeysStreamByPattern(pattern);
+    public  Collection<String> keys(final String pattern) {
+        Stream<String> stream = redissonClient.getKeys().getKeysStreamByPattern(pattern);
         return stream.collect(Collectors.toList());
     }
 
@@ -520,8 +526,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      *
      * @param pattern 字符串前缀
      */
-    public static void deleteKeys(final String pattern) {
-        CLIENT.getKeys().deleteByPattern(pattern);
+    public  void deleteKeys(final String pattern) {
+        redissonClient.getKeys().deleteByPattern(pattern);
     }
 
     /**
@@ -529,8 +535,8 @@ private static final RedissonClient CLIENT = SpringUtil.getBean(RedissonClient.c
      *
      * @param key 键
      */
-    public static Boolean hasKey(String key) {
-        RKeys rKeys = CLIENT.getKeys();
+    public  Boolean hasKey(String key) {
+        RKeys rKeys = redissonClient.getKeys();
         return rKeys.countExists(key) > 0;
     }
 }

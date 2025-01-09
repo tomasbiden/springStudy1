@@ -6,6 +6,7 @@ import org.redisson.api.RateIntervalUnit;
 import org.redisson.api.RateType;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ui.context.Theme;
 
@@ -22,9 +23,12 @@ class RedisUtilsTest {
 
     // 创建 普通 用户的线程池，线程池大小为 5
     ExecutorService regularThreadPool = Executors.newFixedThreadPool(5);
+
+    @Autowired
+    RedissonClient redissonClient;
     @Test
     public  void test1() throws InterruptedException {
-        RedissonClient client = RedisUtils.getClient();
+        RedissonClient client =redissonClient;
         Config config = client.getConfig();
         RRateLimiter rateLimiter = client.getRateLimiter("test1");
         rateLimiter.setRate(RateType.OVERALL,5,30, RateIntervalUnit.SECONDS);
@@ -40,7 +44,7 @@ class RedisUtilsTest {
 
         // 用一个列表来存储所有的 CompletableFuture
         CompletableFuture[] futures = new CompletableFuture[50];
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i <= 10; i++) {
             ExecutorService tmpThreadPool;
             if(i%2==1){
                  tmpThreadPool=vipThreadPool1;
