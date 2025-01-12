@@ -1,5 +1,12 @@
 
 spring:
+  application:
+    name: springStudy1
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
   profiles:
     active: dev #指定 环境配置
   datasource:
