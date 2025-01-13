@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 //@FeignClient(url = "http://localhost:8081/api/app",name = "yudada-backend")
-@FeignClient(name = "aiScore")
+@FeignClient(name = "novaaiscore")
 //@EnableFeignClients
 public interface AFeignClient {
     @GetMapping("/test")
@@ -17,14 +17,14 @@ public interface AFeignClient {
     public String getDataFromA();
 
 //    注意参数 注意request
-    @GetMapping ("/get/vo")
+    @GetMapping ("/api/get/vo")
 //    @Headers(value = "Content-Type: application/json")
     public AppVO getAppVOById(@RequestParam("id")long id);
 
     @PostMapping("/postTest")
     public AppVO postTest(@RequestBody AppQueryRequest appQueryRequest);
 
-    @GetMapping("/get/vo2")
+    @GetMapping("/api/app/get/vo2")
     public String getAppVOById2(@RequestParam("id")long id);
 
 

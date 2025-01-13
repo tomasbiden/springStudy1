@@ -31,6 +31,8 @@ public class TestService {
         appQueryRequest.setAppName("appName");
 //        AppVO appVO = aFeignClient.postTest(appQueryRequest);
         long id=1;
+//        AppVO appVOById = aFeignClient.getAppVOById(id);
+
         String dataWithCode = aFeignClient.getAppVOById2(id);
         try {
             // 3. 使用 ObjectMapper 将 JSON 字符串转换为 Java 对象
