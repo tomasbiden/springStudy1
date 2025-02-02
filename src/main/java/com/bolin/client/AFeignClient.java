@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 //@FeignClient(url = "http://localhost:8081/api/app",name = "yudada-backend")
-@FeignClient(name = "novaaiscore")
+@FeignClient(name = "nova-ai-score")
 //@EnableFeignClients
 public interface AFeignClient {
     @GetMapping("/test")
