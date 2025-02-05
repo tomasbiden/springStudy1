@@ -24,7 +24,7 @@ public class Producer {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         try (KafkaProducer<String, String> producer = new KafkaProducer<>(props)) {
 
-            producer.send(new ProducerRecord<>("my-topic", "some-message2"), (metadata, exception) -> {
+            producer.send(new ProducerRecord<>("quickstart-events", "some-message5"), (metadata, exception) -> {
                 if (exception != null) {
                     log.error("Trouble producing", exception);
                 } else {

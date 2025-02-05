@@ -25,10 +25,10 @@ public class Consumer {
         props.put("key.deserializer", StringDeserializer.class);
         props.put("value.deserializer", StringDeserializer.class);
         try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props)) {
-            consumer.subscribe(Collections.singletonList("my-topic"));
+            consumer.subscribe(Collections.singletonList("quickstart-events"));
             while (true) {
                 final ConsumerRecords<String, String> consumerRecords =
-                        consumer.poll(Duration.ofSeconds(1));
+                        consumer.poll(Duration.ofSeconds(0));
                 for (ConsumerRecord<String, String> record : consumerRecords) {
                     System.out.println(record+"ceshi");
                     //process the record
