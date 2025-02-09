@@ -1,8 +1,11 @@
 package com.bolin.service;
 
+import com.alibaba.dashscope.exception.InputRequiredException;
+import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bolin.common.BaseResponse;
 import com.bolin.model.dto.user.UserQueryRequest;
+import com.bolin.model.param.AiQueryParam;
 import com.bolin.model.param.LoginParam;
 import com.bolin.model.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -121,4 +124,6 @@ public interface UserService extends IService<User> {
     String getCount(String requestedSessionId);
 
     void redisRemove(String requestedSessionId);
+
+    void ai(AiQueryParam aiQueryParam) throws NoApiKeyException, InputRequiredException;
 }

@@ -1,13 +1,17 @@
 package com.bolin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.alibaba.dashscope.exception.InputRequiredException;
+import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bolin.common.BaseResponse;
 import com.bolin.common.ErrorCode;
 import com.bolin.common.ResultUtils;
 import com.bolin.exception.BusinessException;
+import com.bolin.group1.dir1.ai.aliyun.AIMannger;
 import com.bolin.model.dto.user.UserQueryRequest;
+import com.bolin.model.param.AiQueryParam;
 import com.bolin.model.param.LoginParam;
 import com.bolin.model.pojo.User;
 import com.bolin.model.vo.LoginUserVO;
@@ -46,6 +50,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Autowired
     SessionIpManager sessionIpManager;
+
+    @Autowired
+    AIMannger aiMannger;
     @Override
     public void test1() {
         // 获取 Redis 中的 HashMap (RMap)
@@ -389,6 +396,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 }
             }
         }
+    }
+
+    @Override
+    public void ai(AiQueryParam aiQueryParam) throws NoApiKeyException, InputRequiredException {
+        aiMannger.callWithMessage(aiQueryParam);
     }
 }
 

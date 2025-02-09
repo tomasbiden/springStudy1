@@ -1,10 +1,13 @@
 package com.bolin.controller;
 
+import com.alibaba.dashscope.exception.InputRequiredException;
+import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.bolin.common.BaseResponse;
 import com.bolin.common.ErrorCode;
 import com.bolin.common.ResultUtils;
 import com.bolin.exception.BusinessException;
 import com.bolin.model.dto.user.UserLoginRequest;
+import com.bolin.model.param.AiQueryParam;
 import com.bolin.model.param.TestParam;
 import com.bolin.model.vo.LoginUserVO;
 import com.bolin.rpcService.TestService;
@@ -48,6 +51,18 @@ public class UserController {
 
         // 返回结果并附带客户端 IP 地址
         return "Client IP: " + ipAddress + ", User List: " + userService.list().toString();
+    }
+
+    @RequestMapping("/ai")
+    public void ai(HttpServletRequest request, @RequestBody AiQueryParam aiQueryParam) throws NoApiKeyException, InputRequiredException {
+        // 获取客户端的 IP 地址
+        String ipAddress = getClientIP(request);
+
+        // 调用 service 层的方法
+        userService.ai(aiQueryParam);
+
+        // 返回结果并附带客户端 IP 地址
+//        return "Client IP: " + ipAddress + ", User List: " + userService.list().toString();
     }
 
     /**

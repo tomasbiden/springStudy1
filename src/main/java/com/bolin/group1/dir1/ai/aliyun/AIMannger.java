@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.lang.System;
 
@@ -16,48 +18,54 @@ import com.alibaba.dashscope.common.Role;
 import com.alibaba.dashscope.exception.ApiException;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
-import com.alibaba.dashscope.utils.JsonUtils;
+import com.bolin.model.param.AiQueryParam;
+import org.springframework.stereotype.Component;
 
-public class Test1 {
-    public static void addToMd(String content){
+@Component
+public class AIMannger {
 
+    private List<Message> messages=new ArrayList<Message>();
+    public  void addToMd(String content,String filePath){
 
         // 创建一个 File 对象，表示将要写入的 .md 文件
-        File markdownFile = new File("F:\\group1\\JAVA\\JAVA1\\projectSet2\\deepSeek1\\md\\example.md");
-
+//        "F:\\group1\\JAVA\\JAVA1\\projectSet2\\deepSeek1\\md\\example.md"
+        File markdownFile = new File(filePath);
         // 使用 BufferedWriter 来写入文件
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(markdownFile,true))) {
             // 将字符串内容写入到 .md 文件中
             writer.append(content);
-            System.out.println("内容已成功写入 example.md 文件。");
+            System.out.println("内容已成功写入"+filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public static String getHead1(String title){
+    public  String getHead1(String title){
         StringBuilder stringBuilder = new StringBuilder();
-        return stringBuilder.append("\n").append("# ").append(title).append("\n").toString();
+        return stringBuilder.append("# ").append(title).append("\n").toString();
 
     }
-    public static  GenerationResult callWithMessage(List<Message> messages,String userString)throws ApiException, NoApiKeyException, InputRequiredException{
+    public  GenerationResult callWithMessage(AiQueryParam aiQueryParam)throws ApiException, NoApiKeyException, InputRequiredException{
+        if(aiQueryParam.getNewContact()){
+            messages.clear();
+        }
         if(messages.isEmpty()){
 
             Message systemMsg = Message.builder()
                     .role(Role.SYSTEM.getValue())
-                    .content("你是一个乐于助人的帮手")
+                    .content(aiQueryParam.getSystemSet())
                     .build();
             messages.add(systemMsg);
-            addToMd(getHead1("系统设置")+systemMsg.getContent());
+            addToMd(getHead1("系统设置:"+systemMsg.getContent()),aiQueryParam.getFilePath());
 
         }
-        System.out.println(userString);
-        addToMd(getHead1("用户问题")+userString);
+        System.out.println(aiQueryParam.getUserQuestion());
+        addToMd(getHead1("问："+aiQueryParam.getUserQuestion()),aiQueryParam.getFilePath());
 
         Message userMessage = Message.builder()
                 .role(Role.USER.getValue())
-                .content(userString)
+                .content(aiQueryParam.getUserQuestion())
                 .build();
         messages.add(userMessage);
         Generation gen = new Generation();
@@ -72,7 +80,7 @@ public class Test1 {
         GenerationResult result = gen.call(param);
 
         String assistantContent = result.getOutput().getChoices().get(0).getMessage().getContent();
-        addToMd(getHead1("回答")+assistantContent);
+        addToMd(getHead1("回答"+"\n"+assistantContent),aiQueryParam.getFilePath());
         Message assistantMessage = Message.builder()
                 .role(Role.ASSISTANT.getValue())
                 .content(assistantContent)
@@ -83,26 +91,5 @@ public class Test1 {
         return  result;
 
     }
-    public static void main(String[] args) {
-        try {
-            List<Message> messages=new ArrayList<Message>();
 
-
-
-            GenerationResult result = callWithMessage(messages,"给我举出一个简单例子来讲解一下java泛型");
-//            System.out.println(JsonUtils.toJson(result));
-            System.out.println(result.getOutput().getChoices().get(0).getMessage().getContent());
-
-            result=callWithMessage(messages,"世界上最高的山是什么，这是我的第几个问题，我的第一个问题是什么");
-
-            System.out.println(result.getOutput().getChoices().get(0).getMessage().getContent());
-
-
-
-        } catch (ApiException | NoApiKeyException | InputRequiredException e) {
-            // 使用日志框架记录异常信息
-            System.err.println("An error occurred while calling the generation service: " + e.getMessage());
-        }
-        System.exit(0);
-    }
 }
