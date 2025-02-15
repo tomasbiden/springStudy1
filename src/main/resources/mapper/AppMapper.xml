@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bolin.mapper.AppMapper">
 
-    <resultMap id="BaseResultMap" type="com.bolin.demos.pojo.App">
+    <resultMap id="BaseResultMap" type="com.bolin.group2.dir1.cata1.demos.pojo.App">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="appname" column="appName" jdbcType="VARCHAR"/>
             <result property="appdesc" column="appDesc" jdbcType="VARCHAR"/>
@@ -23,7 +23,7 @@
 
 
     <!-- 定义 resultMap -->
-    <resultMap id="AppVo1ResultMap" type="com.bolin.demos.vo.AppVo1">
+    <resultMap id="AppVo1ResultMap" type="com.bolin.group2.dir1.cata1.demos.vo.AppVo1">
         <result property="id" column="id"/>
         <result property="appName" column="appName"/>
         <!-- 处理 User 对象的嵌套映射 -->
@@ -31,7 +31,7 @@
 
 
 
-        <collection property="questionList" ofType="com.bolin.demos.pojo.Question" resultMap="QuestionResultMap"/>
+        <collection property="questionList" ofType="com.bolin.group2.dir1.cata1.demos.pojo.Question" resultMap="QuestionResultMap"/>
 
 
         <collection property="questionContent" ofType="java.lang.String">
@@ -43,7 +43,7 @@
 <!--    <collection property="questionContent" ofType="java.lang.String">-->
 <!--        <result column="questionContent"/>-->
 <!--    </collection>-->
-    <resultMap id="QuestionResultMap" type="com.bolin.demos.pojo.Question">
+    <resultMap id="QuestionResultMap" type="com.bolin.group2.dir1.cata1.demos.pojo.Question">
 <!--        <id property="id" column="id" jdbcType="BIGINT"/>-->
         <id property="id" column="questionId" jdbcType="BIGINT"/>
         <result property="questioncontent" column="questionContent" jdbcType="VARCHAR"/>
@@ -54,7 +54,7 @@
         <result property="isdelete" column="isDelete" jdbcType="TINYINT"/>
     </resultMap>
 
-    <resultMap id="UserResultMap" type="com.bolin.demos.pojo.User">
+    <resultMap id="UserResultMap" type="com.bolin.group2.dir1.cata1.demos.pojo.User">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="useraccount" column="userAccount" jdbcType="VARCHAR"/>
         <result property="userpassword" column="userPassword" jdbcType="VARCHAR"/>

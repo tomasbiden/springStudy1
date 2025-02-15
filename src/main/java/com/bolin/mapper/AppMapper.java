@@ -1,7 +1,7 @@
 package com.bolin.mapper;
 
-import com.bolin.demos.vo.AppVo1;
-import com.bolin.demos.pojo.App;
+import com.bolin.group2.dir1.cata1.demos.vo.AppVo1;
+import com.bolin.group2.dir1.cata1.demos.pojo.App;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;

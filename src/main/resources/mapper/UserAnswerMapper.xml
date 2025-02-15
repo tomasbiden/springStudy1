@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bolin.mapper.UserAnswerMapper">
 
-    <resultMap id="BaseResultMap" type="com.bolin.demos.pojo.UserAnswer">
+    <resultMap id="BaseResultMap" type="com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="appid" column="appId" jdbcType="BIGINT"/>
             <result property="apptype" column="appType" jdbcType="TINYINT"/>

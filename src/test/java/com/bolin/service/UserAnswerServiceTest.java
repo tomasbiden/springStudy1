@@ -1,6 +1,7 @@
 package com.bolin.service;
 
-import com.bolin.demos.pojo.UserAnswer;
+import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
+import com.bolin.group2.dir1.cata1.service.UserAnswerService;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserAnswerServiceTest {

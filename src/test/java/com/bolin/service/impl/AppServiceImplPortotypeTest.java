@@ -1,6 +1,6 @@
 package com.bolin.service.impl;
 
-import com.bolin.service.AppService;
+import com.bolin.group2.dir1.cata1.service.AppService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

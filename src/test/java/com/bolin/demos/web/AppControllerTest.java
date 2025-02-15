@@ -1,10 +1,9 @@
 package com.bolin.demos.web;
 
+import com.bolin.group2.dir1.cata1.demos.web.AppController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AppControllerTest {

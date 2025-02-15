@@ -1,6 +1,6 @@
 package com.bolin.mapper;
 
-import com.bolin.model.pojo.User;
+import com.bolin.group2.dir1.cata1.model.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

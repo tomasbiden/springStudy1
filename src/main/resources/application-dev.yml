@@ -5,7 +5,7 @@ spring:
     url: jdbc:mysql://localhost:3306/yudada
     username: root
     password: 1234
-  .data:
+  data:
     redis:
       database: 1
       host: localhost
@@ -16,3 +16,14 @@ spring:
 server:
   port: 8101
   address: 0.0.0.0
+
+rocketmq:
+  name-server: 127.0.0.1:9876  # RocketMQ NameServer 地址
+  consumer:
+    group:
+#  producer:
+#    group: my-producer-group   # 生产者的 group
+#  consumer:
+#    group: my-consumer-group2   # 消费者的 group
+
+

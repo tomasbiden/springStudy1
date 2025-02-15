@@ -1,11 +1,8 @@
 package com.bolin.service.impl;
 
-import com.bolin.converter.struct.LogisticsChannelConverter;
-import com.bolin.demos.dto.LogisticsChannelSaveParam;
-import com.bolin.demos.pojo.LogisticsChannel;
-import com.bolin.service.LogisticsChannelService;
+import com.bolin.group2.dir1.cata1.demos.dto.LogisticsChannelSaveParam;
+import com.bolin.group2.dir1.cata1.service.LogisticsChannelService;
 import com.github.javafaker.Faker;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

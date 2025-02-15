@@ -1,9 +1,9 @@
 package com.bolin.example;
 
-import com.bolin.demos.web.AppController;
+import com.bolin.group2.dir1.cata1.demos.web.AppController;
 import com.bolin.mapper.AppMapper;
-import com.bolin.demos.pojo.App;
-import com.bolin.service.AppService;
+import com.bolin.group2.dir1.cata1.demos.pojo.App;
+import com.bolin.group2.dir1.cata1.service.AppService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

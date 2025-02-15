@@ -1,7 +1,7 @@
 package com.bolin.group1.springEvent;
 
 import com.bolin.mapper.AppMapper;
-import com.bolin.demos.pojo.App;
+import com.bolin.group2.dir1.cata1.demos.pojo.App;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

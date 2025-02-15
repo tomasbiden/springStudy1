@@ -1,14 +1,11 @@
 package com.bolin.mapper;
 
-import com.bolin.demos.vo.AppVo1;
+import com.bolin.group2.dir1.cata1.demos.vo.AppVo1;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AppMapperTest {

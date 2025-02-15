@@ -152,6 +152,13 @@
             <artifactId>kafka-clients</artifactId>
             <version>3.9.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>2.3.0</version>  <!-- 版本可以根据需要选择 -->
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java -->
         <dependency>
             <groupId>com.alibaba</groupId>
