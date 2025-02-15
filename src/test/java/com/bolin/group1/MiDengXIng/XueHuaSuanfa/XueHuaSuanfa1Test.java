@@ -1,5 +1,6 @@
 package com.bolin.group1.MiDengXIng.XueHuaSuanfa;
 
+import com.bolin.group1.dir1.MiDengXIng.XueHuaSuanfa.Snowflake;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

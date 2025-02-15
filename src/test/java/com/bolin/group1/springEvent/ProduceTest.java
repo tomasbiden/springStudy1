@@ -1,13 +1,10 @@
 package com.bolin.group1.springEvent;
 
+import com.bolin.group1.dir1.springEvent.Produce;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationEventPublisher;
-
-import java.util.concurrent.CompletableFuture;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ProduceTest {

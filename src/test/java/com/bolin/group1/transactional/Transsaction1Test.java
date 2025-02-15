@@ -1,14 +1,10 @@
 package com.bolin.group1.transactional;
 
+import com.bolin.group1.dir1.transactional.Transsaction1;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.transaction.interceptor.TransactionInterceptor;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 
 
 @Data
