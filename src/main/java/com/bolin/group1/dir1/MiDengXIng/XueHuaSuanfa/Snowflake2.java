@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class Snowflake {
+public class Snowflake2 {
 
     public void try1(){
 
