@@ -16,7 +16,7 @@ dataSources:
 rules:
   - !SHARDING
     tables:
-      user_answer:
+      logic_table:
         actualDataNodes: ds_${0..1}.user_answer_${0..1}
         tableStrategy:
           standard:
