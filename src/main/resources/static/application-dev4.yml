@@ -1,0 +1,74 @@
+
+spring:
+  shardingsphere:
+    enabled: true
+    datasource:
+      names: ds0, ds1
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/yudada_0
+        username: root
+        password: 1234
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/yudada_1
+        username: root
+        password: 1234
+    rules:
+      sharding:
+        tables:
+          user_answer:
+            actual-data-nodes: ds$->{0..1}.user_answer_$->{0..1}
+            database-strategy:
+              standard:
+                sharding-column: user_id  # 与实际表字段一致
+                sharding-algorithm-name: db-hash-mod
+            table-strategy:
+              standard:
+                sharding-column: user_id  # 与分库键一致
+                sharding-algorithm-name: tb-hash-mod
+#            key-generate-strategy:  # 分布式ID生成
+#              column: id
+#              key-generator-name: snowflake
+        sharding-algorithms:
+          db-hash-mod:
+            type: INLINE
+            props:
+              sharding-count: 2
+              algorithm-expression: ds$->{user_id % 2}  # 明确表达式
+          tb-hash-mod:
+            type: INLINE
+            props:
+              sharding-count: 2
+              algorithm-expression: user_answer$->{user_id % 2}  # 与分库键一致
+#        key-generators:
+#          snowflake:
+#            type: SNOWFLAKE
+#            props:
+#              worker-id: 123
+    props:
+      sql-show: true
+  data:
+    redis:
+      database: 1
+      host: localhost
+      port: 6379
+      timeout: 5000
+  aop:
+    proxy-target-class: false
+server:
+  port: 8101
+  address: 0.0.0.0
+
+rocketmq:
+  name-server: 127.0.0.1:9876  # RocketMQ NameServer 地址
+  consumer:
+    group:
+#  producer:
+#    group: my-producer-group   # 生产者的 group
+#  consumer:
+#    group: my-consumer-group2   # 消费者的 group
+
+

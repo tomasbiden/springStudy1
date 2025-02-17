@@ -1,0 +1,44 @@
+mode:
+  type: Standalone
+dataSources:
+  ds_0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:3306/yudada_0
+    username: root
+    password: 1234
+  ds_1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:3306/yudada_1
+    username: root
+    password: 1234
+rules:
+  - !SHARDING
+    tables:
+      user_answer:
+        actualDataNodes: ds_${0..1}.user_answer_${0..1}
+        tableStrategy:
+          standard:
+            shardingColumn: appId
+            shardingAlgorithmName: t_order_inline
+    defaultDatabaseStrategy:
+      standard:
+        shardingColumn: userId
+        shardingAlgorithmName: database_inline
+    defaultTableStrategy:
+      none:
+    shardingAlgorithms:
+      database_inline:
+        type: INLINE
+        props:
+          algorithm-expression: ds_${userId  % 2}
+      t_order_inline:
+        type: INLINE
+        props:
+          algorithm-expression: user_answer_${appId % 2}
+props:
+  sql-show: true
+
+
+
