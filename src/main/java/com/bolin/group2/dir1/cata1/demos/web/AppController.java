@@ -17,7 +17,7 @@
 package com.bolin.group2.dir1.cata1.demos.web;
 
 import com.bolin.group2.dir1.cata1.demos.vo.AppVo1;
-import com.bolin.group1.dir1.MiDengXIng.XueHuaSuanfa.Snowflake;
+import com.bolin.group1.dir1.MiDengXIng.XueHuaSuanfa.Snowflake2;
 import com.bolin.mapper.AppMapper;
 import com.bolin.group2.dir1.cata1.service.AppService;
 import jakarta.annotation.Resource;
@@ -47,7 +47,7 @@ public class AppController {
    RedissonClient redissonClient;
 
    @Autowired
-   Snowflake xueHuaSuanfa1;
+   Snowflake2 xueHuaSuanfa1;
 
     // http://127.0.0.1:8080/hello?name=lisi
     @RequestMapping("/hello")
