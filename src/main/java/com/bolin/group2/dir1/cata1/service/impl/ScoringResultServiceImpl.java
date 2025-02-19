@@ -2,8 +2,11 @@ package com.bolin.group2.dir1.cata1.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bolin.group2.dir1.cata1.demos.pojo.ScoringResult;
+import com.bolin.group2.dir1.cata1.service.QuestionService;
 import com.bolin.group2.dir1.cata1.service.ScoringResultService;
 import com.bolin.mapper.ScoringResultMapper;
+import groovy.lang.Lazy;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,12 @@ public class ScoringResultServiceImpl extends ServiceImpl<ScoringResultMapper, S
     implements ScoringResultService {
     @Autowired
     ScoringResultMapper scoringResultMapper;
+
+    @Resource
+    @Lazy
+    QuestionService questionService;
+
+
     @Override
     public void test1() {
         long id=2;
