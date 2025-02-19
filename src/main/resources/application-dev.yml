@@ -1,5 +1,7 @@
 
 spring:
+  main:
+    allow-circular-references: true
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:config.yml
