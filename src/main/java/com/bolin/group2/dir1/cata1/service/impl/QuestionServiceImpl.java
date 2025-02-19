@@ -20,11 +20,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     implements QuestionService {
 
 
+    @Resource
+    @Lazy
     ScoringResultService scoringResultService;
 
-    public QuestionServiceImpl(@Lazy ScoringResultService scoringResultService){
-        this.scoringResultService=scoringResultService;
-    }
+
 
 }
 
