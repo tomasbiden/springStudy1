@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 public class RedisUtil1 {
@@ -92,13 +93,97 @@ public class RedisUtil1 {
 
     }
 
+    /****
+     * 【Redisson RateLimiter 核心知识点】
+     * 1. 分布式限流原理：基于Redis的原子操作实现跨JVM的流量控制
+     * 2. 令牌桶算法：允许突发流量，平滑过渡到恒定速率
+     * 3. 两种限流模式：
+     *    - OVERALL：全局模式（所有客户端共享同一个限流器）
+     *    - PER_CLIENT：单客户端模式（每个IP/客户端独立限流）
+     * 4. 动态配置：支持运行时修改限流规则
+     */
+    public static void rateLimiterStudy1(RedissonClient redisson){
+        try {
+
+            /**** 获取/创建限流器（名称标识唯一限流规则） */
+            RRateLimiter rateLimiter = redisson.getRateLimiter("order_api_limiter");
+
+            /**** 初始化限流规则（如果不存在则创建） */
+            // 参数说明：RateType, 每秒生成令牌数, 时间间隔, 时间单位, 突发容量（可选）
+            boolean isSet = rateLimiter.trySetRate(
+                    RateType.OVERALL,
+                    5,          // 每秒5个令牌
+                    1,
+                    RateIntervalUnit.SECONDS
+            );
+            System.out.println("限流规则设置" + (isSet ? "成功" : "已存在"));
+
+            /**** 场景1：阻塞式获取令牌（适合必须等待的请求） */
+            System.out.println("\n--- 测试阻塞式获取 ---");
+            for (int i = 1; i <= 3; i++) {
+                long start = System.currentTimeMillis();
+                rateLimiter.acquire(1);  // 获取1个令牌（阻塞）
+                long cost = System.currentTimeMillis() - start;
+                System.out.printf("请求%d 等待时间: %dms%n", i, cost);
+            }
+
+            /**** 场景2：非阻塞尝试获取（快速失败机制） */
+            System.out.println("\n--- 测试非阻塞获取 ---");
+            boolean acquired = rateLimiter.tryAcquire(1, 500, TimeUnit.MILLISECONDS);
+            if (acquired) {
+                System.out.println("非阻塞获取成功");
+            } else {
+                System.out.println("请求被限流");
+            }
+
+            /**** 场景3：批量请求处理（需要多个令牌） */
+            System.out.println("\n--- 测试批量获取 ---");
+            int requiredTokens = 3;
+            if (rateLimiter.tryAcquire(requiredTokens)) {
+                System.out.println("成功获取" + requiredTokens + "个令牌，处理批量请求");
+            } else {
+                System.out.println("令牌不足，无法处理批量请求");
+            }
+
+            /**** 场景4：动态调整限流规则（应对流量变化） */
+            System.out.println("\n--- 动态调整限流速率 ---");
+            rateLimiter.setRate(RateType.OVERALL, 10, 1, RateIntervalUnit.SECONDS);
+            System.out.println("已调整限流速率到10/秒");
+
+            /**** 验证新速率生效 */
+            System.out.println("\n--- 验证新速率 ---");
+            for (int i = 1; i <= 12; i++) {
+                if (rateLimiter.tryAcquire()) {
+                    System.out.printf("请求%d 成功%n", i);
+                } else {
+                    System.out.printf("请求%d 被限流%n", i);
+                }
+                Thread.sleep(50);  // 模拟请求间隔
+            }
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            /**** 重要：关闭客户端释放资源 */
+            if (redisson != null) {
+                redisson.shutdown();
+                System.out.println("\nRedis连接已关闭");
+            }
+        }
+    }
+
+
 
     public static void main(String[] args){
 
         RedissonClient redisson = createRedissonClient();
-        basicDataMy1(redisson);
+//        basicDataMy1(redisson);
+        rateLimiterStudy1(redisson);
+
 
 
 
     }
+
+
 }
