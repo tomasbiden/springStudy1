@@ -21,7 +21,6 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
 
 
     @Resource
-    @Lazy
     ScoringResultService scoringResultService;
 
 
