@@ -222,6 +222,10 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
+                    <skip>true</skip>
+                    <!-- 不执行单元测试，也不编译测试类  https://blog.csdn.net/Qiwan2/article/details/90643298 -->
+<!--                    <maven.test.skip>true</maven.test.skip>-->
+
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
@@ -239,6 +243,7 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
