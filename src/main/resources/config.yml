@@ -32,7 +32,7 @@ rules:
       database_inline:
         type: INLINE
         props:
-          algorithm-expression: ds_${user_id  % 4}
+          algorithm-expression: ds_${(user_id  % 2)+2}
       t_order_inline:
         type: INLINE
         props:
