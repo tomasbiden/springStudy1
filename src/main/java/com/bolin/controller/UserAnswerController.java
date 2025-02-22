@@ -67,6 +67,12 @@ public class UserAnswerController {
 
     }
 
+    @PostMapping("/getUserAnswerByAppId")
+    public BaseResponse<List<UserAnswer>> getUserAnswerByAppId(@RequestBody Long appId) {
+        return ResultUtils.success(userAnswerService.getUserAnswerByAppId(appId));
+
+    }
+
 
 
 
