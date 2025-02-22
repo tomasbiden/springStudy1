@@ -1,30 +1,30 @@
 mode:
   type: Standalone
 dataSources:
-  ds_0:
+  ds_2:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://localhost:3306/yudada_0
+    jdbcUrl: jdbc:mysql://localhost:3306/yudada_2
     username: root
     password: 1234
-  ds_1:
+  ds_3:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    jdbcUrl: jdbc:mysql://localhost:3306/yudada_1
+    jdbcUrl: jdbc:mysql://localhost:3306/yudada_3
     username: root
     password: 1234
 rules:
   - !SHARDING
     tables:
       logic_table:
-        actualDataNodes: ds_${0..1}.user_answer_${0..1}
+        actualDataNodes: ds_${2..3}.user_answer_${0..1}
         tableStrategy:
           standard:
-            shardingColumn: appId
+            shardingColumn: app_id
             shardingAlgorithmName: t_order_inline
     defaultDatabaseStrategy:
       standard:
-        shardingColumn: userId
+        shardingColumn: user_id
         shardingAlgorithmName: database_inline
     defaultTableStrategy:
       none:
@@ -32,11 +32,11 @@ rules:
       database_inline:
         type: INLINE
         props:
-          algorithm-expression: ds_${userId  % 2}
+          algorithm-expression: ds_${user_id  % 4}
       t_order_inline:
         type: INLINE
         props:
-          algorithm-expression: user_answer_${appId % 2}
+          algorithm-expression: user_answer_${app_id % 2}
 props:
   sql-show: true
 

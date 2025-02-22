@@ -20,6 +20,8 @@ public class UserAnswerAddRequest implements Serializable {
      */
     private Long id;
 
+    private Long tenantId;
+
     /**
      * 应用 id
      */
