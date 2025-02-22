@@ -5,6 +5,8 @@ spring:
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:config.yml
+    username: root
+    password: 1234
   data:
     redis:
       database: 1
