@@ -23,6 +23,7 @@ import com.bolin.group2.dir1.cata1.service.AppService;
 import jakarta.annotation.Resource;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,8 @@ import java.util.List;
 public class AppController {
 
     @Autowired
-   AppService appServiceImpl;
+    @Qualifier("appServiceImpl")
+   AppService appService;
 
    @Resource
    AppMapper appMapper;
@@ -62,7 +64,7 @@ public class AppController {
     @ResponseBody
     public String transactional(@RequestParam(name = "name", defaultValue = "unknown user") String name) {
         try {
-            appServiceImpl.transacionalTest();
+            appService.transacionalTest();
         }catch (Exception e){
             System.out.println(e);
             return  e.toString();
@@ -80,7 +82,7 @@ public class AppController {
         User user = new User();
         user.setName("theonefx");
         user.setAge(666);
-        appServiceImpl.test1();
+        appService.test1();
         return user;
     }
 
