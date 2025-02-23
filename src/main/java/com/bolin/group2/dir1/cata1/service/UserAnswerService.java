@@ -1,7 +1,9 @@
 package com.bolin.group2.dir1.cata1.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bolin.group2.dir1.cata1.model.dto.userAnswer.UserAnswerQueryRequest;
 
 import java.util.List;
 
@@ -16,5 +18,13 @@ public interface UserAnswerService extends IService<UserAnswer> {
 
 
     public boolean saveUserAnswer(UserAnswer userAnswer);
+
+    /**
+     * 获取查询条件
+     *
+     * @param userAnswerQueryRequest
+     * @return
+     */
+    QueryWrapper<UserAnswer> getQueryWrapper(UserAnswerQueryRequest userAnswerQueryRequest);
 
 }

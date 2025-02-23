@@ -12,6 +12,7 @@ import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
 import com.bolin.group2.dir1.cata1.exception.BusinessException;
 import com.bolin.group2.dir1.cata1.exception.ThrowUtils;
 import com.bolin.group2.dir1.cata1.model.dto.userAnswer.UserAnswerAddRequest;
+import com.bolin.group2.dir1.cata1.model.dto.userAnswer.UserAnswerQueryRequest;
 import com.bolin.group2.dir1.cata1.service.UserAnswerService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -71,6 +72,22 @@ public class UserAnswerController {
     public BaseResponse<List<UserAnswer>> getUserAnswerByAppId(@RequestBody Long appId) {
         return ResultUtils.success(userAnswerService.getUserAnswerByAppId(appId));
 
+    }
+
+    /**
+     * 分页获取用户答案列表（仅管理员可用）
+     *
+     * @param userAnswerQueryRequest
+     * @return
+     */
+    @PostMapping("/list/page")
+    public BaseResponse<Page<UserAnswer>> listUserAnswerByPage(@RequestBody UserAnswerQueryRequest userAnswerQueryRequest) {
+        long current = userAnswerQueryRequest.getCurrent();
+        long size = userAnswerQueryRequest.getPageSize();
+        // 查询数据库
+        Page<UserAnswer> userAnswerPage = userAnswerService.page(new Page<>(current, size),
+                userAnswerService.getQueryWrapper(userAnswerQueryRequest));
+        return ResultUtils.success(userAnswerPage);
     }
 
 

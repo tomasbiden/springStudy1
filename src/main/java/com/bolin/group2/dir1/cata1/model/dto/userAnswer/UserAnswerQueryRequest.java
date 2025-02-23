@@ -22,6 +22,8 @@ public class UserAnswerQueryRequest extends PageRequest implements Serializable 
      */
     private Long id;
 
+    private Long userId;
+
     /**
      * 应用 id
      */
@@ -70,7 +72,6 @@ public class UserAnswerQueryRequest extends PageRequest implements Serializable 
     /**
      * 用户 id
      */
-    private Long userId;
 
     /**
      * id
