@@ -6,7 +6,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 // 3. 事务事件监听器
     @Component
-    public  class OrderEventListener {
+    public  class TransactionalEventListener1 {
         /**
          * AFTER_COMMIT（默认）：事务成功提交后执行
          */

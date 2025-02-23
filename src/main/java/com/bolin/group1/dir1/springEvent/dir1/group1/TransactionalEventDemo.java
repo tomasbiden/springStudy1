@@ -4,6 +4,7 @@ import com.bolin.Application;
 import com.bolin.controller.UserAnswerController;
 import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
 import com.bolin.mapper.UserAnswerMapper;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -54,6 +55,10 @@ public class TransactionalEventDemo {
             
             // 发布领域事件
             eventPublisher.publishEvent(new OrderCreatedEvent(orderId));
+            if(orderId.equals("1002")){
+                throw  new RuntimeException("生产者异常测试");
+            }
+
         }
     }
 
@@ -76,12 +81,7 @@ public class TransactionalEventDemo {
         // 测试回滚场景
         try {
             service.createOrder("1002");
-//            throw new RuntimeException("模拟业务异常");
-            UserAnswer userAnswer = new UserAnswer();
-            userAnswer.setId(1L);
-            userAnswer.setAppId(2L);
-            userAnswer.setUserId(2L);
-            userAnswerMapper.insert(userAnswer);
+
 
 
         } catch (Exception e) {
