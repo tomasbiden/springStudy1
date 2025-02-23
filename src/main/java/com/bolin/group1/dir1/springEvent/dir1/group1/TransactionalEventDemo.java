@@ -1,6 +1,9 @@
 package com.bolin.group1.dir1.springEvent.dir1.group1;
 
 import com.bolin.Application;
+import com.bolin.controller.UserAnswerController;
+import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
+import com.bolin.mapper.UserAnswerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+
+import java.util.ArrayList;
 
 /**
  * @TransactionalEventListener 知识体系详解
@@ -52,38 +57,14 @@ public class TransactionalEventDemo {
         }
     }
 
-    // 3. 事务事件监听器
-    @Component
-    public static class OrderEventListener {
-        /**
-         * AFTER_COMMIT（默认）：事务成功提交后执行
-         */
-        @TransactionalEventListener
-        public void handleCommit(OrderCreatedEvent event) {
-            System.out.println("【事务提交】发送订单通知: " + event.getOrderId());
-        }
 
-        /**
-         * AFTER_ROLLBACK：事务回滚后执行
-         */
-        @TransactionalEventListener(phase = TransactionPhase.AFTER_ROLLBACK)
-        public void handleRollback(OrderCreatedEvent event) {
-            System.out.println("【事务回滚】执行补偿操作: " + event.getOrderId());
-        }
-
-        /**
-         * AFTER_COMPLETION：无论提交或回滚都会执行
-         */
-        @TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
-        public void handleCompletion(OrderCreatedEvent event) {
-            System.out.println("【事务完成】清理资源: " + event.getOrderId());
-        }
-    }
 
     // 4. 测试入口
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         OrderService service = context.getBean(OrderService.class);
+        UserAnswerController userAnswerController = context.getBean(UserAnswerController.class);
+        UserAnswerMapper userAnswerMapper = context.getBean(UserAnswerMapper.class);
 
         // 测试正常提交
         try {
@@ -95,7 +76,14 @@ public class TransactionalEventDemo {
         // 测试回滚场景
         try {
             service.createOrder("1002");
-            throw new RuntimeException("模拟业务异常");
+//            throw new RuntimeException("模拟业务异常");
+            UserAnswer userAnswer = new UserAnswer();
+            userAnswer.setId(1L);
+            userAnswer.setAppId(2L);
+            userAnswer.setUserId(2L);
+            userAnswerMapper.insert(userAnswer);
+
+
         } catch (Exception e) {
             System.out.println("业务异常: " + e.getMessage());
         }
