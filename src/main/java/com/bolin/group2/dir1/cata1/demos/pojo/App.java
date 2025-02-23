@@ -19,6 +19,8 @@ public class App implements Serializable {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
+    private Long tenantId;
+
     /**
      * 应用名
      */

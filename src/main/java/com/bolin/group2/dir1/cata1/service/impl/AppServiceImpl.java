@@ -40,12 +40,15 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public void transacionalTest() {
 
-        App app = appMapper.selectById((long) 1);
-        app.setId((long)5678);
 
+        QueryWrapper<App> appQueryWrapper = new QueryWrapper<>();
+        appQueryWrapper.eq("user_id",2L);
+        List<App> appList = appMapper.selectList(appQueryWrapper);
+        App app=appList.get(0);
+        app.setId(1234563L);
         appMapper.insert(app);
         System.out.println("插入成功");
 //        appMapper.deleteById((long)567);
