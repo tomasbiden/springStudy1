@@ -40,7 +40,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public void transacionalTest() {
 
 

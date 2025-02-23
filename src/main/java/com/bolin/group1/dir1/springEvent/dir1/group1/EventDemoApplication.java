@@ -21,12 +21,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.*;
 
+/**
+ * Spring 事件机制深度解析
+ *
+ * 核心价值：通过观察者模式实现组件间松耦合通信，适用于需要解耦业务逻辑的场景
+ *
+ * 典型应用场景：
+ * 1. 业务操作后的异步通知（如订单创建后发送短信）
+ * 2. 系统状态变更的日志记录（如配置修改审计）
+ * 3. 缓存同步（数据更新后刷新分布式缓存）
+ * 4. 业务流程的扩展点（通过事件触发额外处理）
+ * 5. 事务边界操作（结合@TransactionalEventListener）
+ */
 @SpringBootApplication
 @EnableAsync
 public class EventDemoApplication {
 
-    @Autowired
-    com.bolin.group1.dir1.springEvent.dir1.group1.NotificationListener notificationListener;
 
     // 1. 自定义线程池配置
     @Bean(name = "customEventPool")
@@ -225,4 +235,37 @@ public class EventDemoApplication {
 
         System.out.println("===== 并发测试完成 =====");
     }
+    /**
+     * 常见面试问题与回答：
+     *
+     * Q1: Spring事件机制的核心组件有哪些？
+     * A1: ApplicationEvent(事件)、ApplicationListener(监听器)、ApplicationEventPublisher(发布者)
+     *
+     * Q2: @EventListener和实现ApplicationListener接口的区别？
+     * A2: 注解方式更灵活，支持条件过滤和异步处理；接口方式适合统一处理多种事件
+     *
+     * Q3: 如何实现监听器的异步执行？
+     * A3: 配合@Async注解，并配置线程池：@EnableAsync + TaskExecutor
+     *
+     * Q4: 多个监听器的执行顺序如何控制？
+     * A4: 使用@Order注解或实现Ordered接口，数值越小优先级越高
+     *
+     * Q5: 事务事件监听器(@TransactionalEventListener)的各个阶段区别？
+     * A5: BEFORE_COMMIT(提交前)、AFTER_COMMIT(提交后)、AFTER_ROLLBACK(回滚后)、AFTER_COMPLETION(完成时)
+     *
+     * Q6: 如何防止事件传播导致的循环触发？(不懂)
+     * A6: (1)检查事件来源 (2)设置状态标识 (3)使用专用事件类型
+     *
+     * Q7: 事件机制在分布式系统中的应用限制？
+     * A7: 本地事件只在单个JVM有效，分布式场景需要集成消息队列
+     *
+     * Q8: 如何实现条件化的事件处理？
+     * A8: 使用condition参数配合SpEL表达式，如@EventListener(condition = "#root.event().amount > 100")
+     *
+     * Q9: 事件发布后如果没有监听器会怎样？
+     * A9: 不会有任何操作，事件会被静默忽略
+     *
+     * Q10: 如何保证事件处理的事务边界？
+     * A10: (1)监听器方法添加@Transactional (2)使用@TransactionalEventListener控制执行阶段
+     */
 }
