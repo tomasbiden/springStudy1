@@ -1,6 +1,8 @@
 package com.bolin.group1.springEvent;
 
+import com.bolin.group1.dir1.springEvent.AnotherUserRegisteredListener;
 import com.bolin.group1.dir1.springEvent.Produce;
+import com.bolin.group1.dir1.springEvent.UserRegisteredEvent;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +15,9 @@ class ProduceTest {
 
     @Autowired
     ApplicationEventPublisher applicationEventPublisher;
+
+    @Autowired
+    AnotherUserRegisteredListener anotherUserRegisteredListener;
     @Test
     void test1() throws InterruptedException {
         try {
@@ -27,7 +32,7 @@ class ProduceTest {
 
              */
             long appid = produce.test();
-//            applicationEventPublisher.publishEvent(new UserRegisteredEvent("ceshi", appid));
+            applicationEventPublisher.publishEvent(new UserRegisteredEvent("ceshi", appid));
 
 
 
