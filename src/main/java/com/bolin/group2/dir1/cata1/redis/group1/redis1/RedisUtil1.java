@@ -4,6 +4,7 @@ import lombok.Data;
 import org.redisson.Redisson;
 import org.redisson.api.*;
 import org.redisson.config.Config;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil1 {
 
 
-    public static RedissonClient createRedissonClient() {
+    public RedissonClient createRedissonClient() {
         Config config = new Config();
         config.useSingleServer().setAddress("redis://127.0.0.1:6379");  // Redis服务器地址
         return Redisson.create(config);
@@ -38,7 +39,7 @@ public class RedisUtil1 {
         System.out.println("Contains 'item4': " + bloomFilter.contains("item4")); // false
 
     }
-    public static void basicDataMy1(RedissonClient redisson){
+    public void basicDataMy1(RedissonClient redisson){
         RBucket<String> bucket = redisson.getBucket("myString");
         bucket.set("Hello Redisson");          // 写入
         String value = bucket.get();           // 读取
@@ -102,7 +103,7 @@ public class RedisUtil1 {
      *    - PER_CLIENT：单客户端模式（每个IP/客户端独立限流）
      * 4. 动态配置：支持运行时修改限流规则
      */
-    public static void rateLimiterStudy1(RedissonClient redisson){
+    public  void rateLimiterStudy1(RedissonClient redisson){
         try {
 
             /**** 获取/创建限流器（名称标识唯一限流规则） */
@@ -279,14 +280,126 @@ public class RedisUtil1 {
      */
 
 
+    /**
+     * Redisson 死锁知识点讲解
+     *
+     * 1. **实际应用场景**:
+     * Redisson 是一个分布式 Redis 客户端，提供了基于 Redis 的分布式锁功能。死锁通常出现在多个线程/进程在获取锁的过程中，相互等待对方释放锁，造成程序的阻塞和资源浪费。
+     * 在分布式系统中，当使用 Redisson 分布式锁时，如果没有正确地使用锁，可能会发生死锁。例如，多个服务或者线程请求相同资源时，如果锁的申请与释放没有正确的顺序或超时设置，会导致死锁现象。
+     *
+     * 2. **案例**:
+     * 典型的死锁案例通常发生在多个服务或者线程在持有多个锁时，由于获取锁的顺序不一致导致死锁。
+     * 假设我们有两个锁：lock1 和 lock2，线程 A 获取了 lock1 锁，线程 B 获取了 lock2 锁，但是两个线程都在等待对方释放另一个锁，最终导致死锁。
+     * 使用 Redisson 时，如果不设定合适的锁超时、锁的顺序等，就会发生类似问题。
+     *
+     * 3. **Redisson 锁使用的基本原理**:
+     * Redisson 提供了 ReentrantLock 和 RLock 等分布式锁的实现。默认情况下，它支持分布式锁、锁超时、锁重入、互斥性等特性。Redisson 锁是基于 Redis 实现的，采用了 Redis 的 setnx 命令来确保锁的唯一性，确保分布式系统中的同步。
+     * 如果没有设置锁的超时或者没有按照正确的顺序获取锁，就会导致死锁。
+     *
+     * 4. **解决方案**:
+     * 为避免死锁，使用 Redisson 锁时，建议：
+     * - 为每个锁设置超时时间，避免死锁。
+     * - 获取多个锁时，保持获取锁的顺序一致。
+     * - 使用 tryLock 方法设置最大等待时间，避免长时间等待。
+     * - 使用锁的自动解锁机制，避免忘记解锁。
+     */
 
 
 
-    public static void main(String[] args){
+    public void redissonDeadlockExample(RedissonClient redisson) throws InterruptedException {
+        // 获取分布式锁
+        RLock lock1 = redisson.getLock("lock1");
+        RLock lock2 = redisson.getLock("lock2");
 
-        RedissonClient redisson = createRedissonClient();
+        // 模拟两个线程的死锁场景
+        // 线程 A
+        Thread threadA = new Thread(() -> {
+            try {
+                lock1.tryLock(3,10,TimeUnit.SECONDS); // 获取 lock1
+                System.out.println("Thread A acquired lock1.");
+                Thread.sleep(1000); // 模拟一些业务逻辑
+                lock2.lock(); // 尝试获取 lock2，此时 thread B 已持有 lock2，导致死锁
+                System.out.println("Thread A acquired lock2.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock1.unlock();
+                lock2.unlock();
+            }
+        });
+
+        // 线程 B
+        Thread threadB = new Thread(() -> {
+            try {
+                lock2.lock(); // 获取 lock2
+                System.out.println("Thread B acquired lock2.");
+                Thread.sleep(1000); // 模拟一些业务逻辑
+                lock1.lock(); // 尝试获取 lock1，此时 thread A 已持有 lock1，导致死锁
+                System.out.println("Thread B acquired lock1.");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock2.unlock();
+                lock1.unlock();
+            }
+        });
+
+        // 启动线程 A 和线程 B
+        threadA.start();
+        threadB.start();
+
+        // 等待线程完成
+        threadA.join();
+        threadB.join();
+
+        redisson.shutdown();
+    }
+
+    /**
+     * 5个注意点:
+     * 1. **避免锁的交叉依赖**: 多个线程获取多个锁时，确保锁的获取顺序一致，避免死锁。
+     * 2. **锁超时设置**: 使用锁时要设置锁的超时值，避免长期等待。
+     * 3. **tryLock**: 使用 `tryLock` 来设置获取锁的最大等待时间，避免死锁。
+     * 4. **定期解锁**: 确保每个锁在不再需要时能够及时释放，避免长时间占用资源。
+     * 5. **死锁检测**: Redisson 本身不提供死锁检测，但可以通过业务逻辑检测是否有线程长时间占用锁并进行处理。
+
+     * 常见的面试问题:
+     * 1. **Redisson 如何实现分布式锁?**
+     *    - 使用 Redis 的 `setnx` 命令保证锁的唯一性，通过 Redisson 封装为分布式锁。
+     * 2. **如何避免 Redisson 死锁?**
+     *    - 保证锁获取顺序一致，设置锁超时时间，使用 `tryLock` 来避免长时间等待。
+     * 3. **Redisson 锁的超时设置有什么意义?**
+     *    - 防止一个线程长时间占用锁，导致其他线程无法获取锁，从而避免死锁或性能问题。
+     * 4. **Redisson 的 `RLock` 和 `ReentrantLock` 有什么区别?**
+     *    - `RLock` 是 Redisson 提供的分布式锁，实现了 Redis 分布式环境下的可重入特性。
+     * 5. **Redisson 锁的 `tryLock` 是如何使用的?**
+     *    - `tryLock` 可以设置最大等待时间和锁持有时间，用于避免死锁。
+     * 6. **Redisson 锁的 `lockInterruptibly` 方法的作用是什么?**
+     *    - `lockInterruptibly` 允许线程在等待锁时响应中断。
+     * 7. **Redisson 锁是否支持公平锁?**
+     *    - Redisson 支持公平锁，通过 `FairLock` 来确保线程按照请求锁的顺序获取锁。
+     * 8. **Redisson 锁的自动解锁机制是怎样的?**
+     *    - Redisson 锁会在锁超时后自动释放，避免忘记手动解锁。
+     * 9. **如果分布式锁获取失败，应该如何处理?**
+     *    - 可以使用 `tryLock`，在获取锁失败时设置合适的处理机制，比如重试或放弃。
+     * 10. **如何保证分布式锁的可伸缩性?**
+     *    - 通过合理配置 Redisson 集群，保证在高并发情况下锁的性能与稳定性。
+     */
+
+
+
+
+
+
+    public static void main(String[] args) throws InterruptedException {
+        RedisUtil1 redisUtil1 = new RedisUtil1();
+
+        RedissonClient redisson = redisUtil1.createRedissonClient();
 //        basicDataMy1(redisson);
-        rateLimiterStudy1(redisson);
+//        rateLimiterStudy1(redisson);
+        redisUtil1.redissonDeadlockExample(redisson);
+
+        Thread.sleep(50000);
 
 
 
