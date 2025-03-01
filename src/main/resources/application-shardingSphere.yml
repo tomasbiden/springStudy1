@@ -19,6 +19,12 @@ server:
   port: 8101
   address: 0.0.0.0
 
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 rocketmq:
   name-server: 127.0.0.1:9876  # RocketMQ NameServer 地址
   consumer:
