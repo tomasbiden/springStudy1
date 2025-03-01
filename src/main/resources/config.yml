@@ -27,7 +27,7 @@ rules:
             shardingAlgorithmName: t_order_inline
     defaultDatabaseStrategy:
       standard:
-        shardingColumn: user_id
+        shardingColumn: tenant_id
         shardingAlgorithmName: database_inline
     defaultTableStrategy:
       none:
@@ -35,7 +35,7 @@ rules:
       database_inline:
         type: INLINE
         props:
-          algorithm-expression: ds_${(user_id  % 2)+2}
+          algorithm-expression: ds_${(tenant_id  % 2)+2}
       t_order_inline:
         type: INLINE
         props:

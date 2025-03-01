@@ -24,6 +24,8 @@ public class UserAnswerQueryRequest extends PageRequest implements Serializable 
 
     private Long userId;
 
+    private Long tenantId;
+
     /**
      * 应用 id
      */

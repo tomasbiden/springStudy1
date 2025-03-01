@@ -88,7 +88,8 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
         // 精确查询
         queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
-//        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId),"user_id", userId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userAnswerQueryRequest.getTenantId()),"tenant_id", userAnswerQueryRequest.getTenantId());
         queryWrapper.eq(ObjectUtils.isNotEmpty(resultId), "result_id", resultId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(appId),"app_id", appId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(appType), "app_type", appType);
