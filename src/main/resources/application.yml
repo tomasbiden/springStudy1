@@ -23,14 +23,14 @@ spring:
         timeout: 5000
     aop:
       proxy-target-class: false
-decorator:
-  datasource:
-    p6spy:
+#decorator:
+#  datasource:
+#    p6spy:
 #       日志格式
-      log-format: "\ntime:%(executionTime) || sql:%(sql)\n || Thread: %(threadName)\n"
+#      log-format: "\ntime:%(executionTime) || sql:%(sql)\n || Thread: %(threadName)\n"
 #       自定义日志类
-      logging: custom
-      custom-appender-class: com.bolin.group1.log.StdoutLogger
+#      logging: custom
+#      custom-appender-class: com.bolin.group1.log.StdoutLogger
 
 logging:
   level:
@@ -45,4 +45,4 @@ server:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

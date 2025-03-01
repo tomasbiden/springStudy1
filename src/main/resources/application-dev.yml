@@ -3,8 +3,8 @@ spring:
   main:
     allow-circular-references: false
   datasource:
-    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    url: jdbc:shardingsphere:classpath:config.yml
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/yudada_underscore
     username: root
     password: 1234
   data:
@@ -18,7 +18,19 @@ spring:
 server:
   port: 8101
   address: 0.0.0.0
+#decorator:
+#  datasource:
+#    p6spy:
+#       日志格式
+#      log-format: "\ntime:%(executionTime) || sql:%(sql)\n || Thread: %(threadName)\n"
+#       自定义日志类
+#      logging: custom
+#      custom-appender-class: com.bolin.group1.log.StdoutLogger
 
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 rocketmq:
   name-server: 127.0.0.1:9876  # RocketMQ NameServer 地址
   consumer:

@@ -10,7 +10,7 @@ import java.util.Date;
  * 用户答题记录
  * @TableName user_answer
  */
-@TableName(value ="logic_table")
+@TableName(value ="user_answer")
 @Data
 public class UserAnswer implements Serializable {
     /**
