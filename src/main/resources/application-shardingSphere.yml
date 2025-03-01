@@ -1,0 +1,31 @@
+
+spring:
+  main:
+    allow-circular-references: false
+  datasource:
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:config.yml
+    username: root
+    password: 1234
+  data:
+    redis:
+      database: 1
+      host: localhost
+      port: 6379
+      timeout: 5000
+  aop:
+    proxy-target-class: false
+server:
+  port: 8101
+  address: 0.0.0.0
+
+rocketmq:
+  name-server: 127.0.0.1:9876  # RocketMQ NameServer 地址
+  consumer:
+    group:
+#  producer:
+#    group: my-producer-group   # 生产者的 group
+#  consumer:
+#    group: my-consumer-group2   # 消费者的 group
+
+

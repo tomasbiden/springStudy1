@@ -19,7 +19,7 @@ rules:
       - app
   - !SHARDING
     tables:
-      logic_table:
+      user_answer:
         actualDataNodes: ds_${2..3}.user_answer_${0..1}
         tableStrategy:
           standard:
