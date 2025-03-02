@@ -84,12 +84,24 @@ and is_delete=0
 and app_id=2
 LIMIT 10;
 
+
+set profiling = 1
+
+SET profiling_history_size = 1000;
 explain
+
 select id
 from user_answer_0
+# force index(`PRIMARY`)
+# force index(index1)
+force index(index_with_isdeleted)
 where  tenant_id=8
 and is_delete=0
+# and app_id=2
 limit 4000000,1
+
+show profiles
+show profile for query 70
 
 -- 查询第 400 万行的 ID
 SELECT id FROM user_answer_0 ORDER BY id LIMIT 1 OFFSET 3999999;
@@ -109,6 +121,7 @@ WHERE
     son_table.id > 1893257146937565370
 and tenant_id=8
 and is_delete=0
+and app_id=2
 limit 10
 
 select *
@@ -123,3 +136,25 @@ where tenant_id=8
 and is_delete=0
 order by create_time
 limit 4000000,20
+
+
+
+
+explain
+SELECT id,tenant_id,app_id,app_type,scoring_strategy,choices,result_id,result_name,result_desc,result_picture,result_score,user_id,create_time,update_time,is_delete FROM user_answer_0 WHERE is_delete=0 AND (tenant_id = 8 AND app_id = 2 AND id >= 1893256356797849687) limit 20
+
+explain analyze
+SELECT id,tenant_id,app_id,app_type,scoring_strategy,choices,result_id,result_name,result_desc,result_picture,result_score,user_id,create_time,update_time,is_delete
+FROM user_answer_0
+WHERE
+    is_delete=0
+AND tenant_id = 8
+  AND app_id = 2
+  AND id <= 1893256356797849687
+order by create_time
+desc
+
+limit 20
+
+
+                                                                                                                                                                                        limit 20
