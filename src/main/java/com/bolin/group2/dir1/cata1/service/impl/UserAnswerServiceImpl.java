@@ -2,6 +2,7 @@ package com.bolin.group2.dir1.cata1.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bolin.group2.dir1.cata1.converter.UserAnswerServiceConverter;
 import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
@@ -100,6 +101,20 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
 //                sortField);
         queryWrapper.orderBy(true,false,"create_time");
         return queryWrapper;
+    }
+
+    @Override
+    public Page<UserAnswer> deepPage(UserAnswerQueryRequest userAnswerQueryRequest) {
+        long current = userAnswerQueryRequest.getCurrent();
+        long size = userAnswerQueryRequest.getPageSize();
+        LambdaQueryWrapper<UserAnswer> deepPagePageIdQuery = UserAnswerServiceConverter.getDeepPagePageIdQuery(userAnswerQueryRequest);
+        UserAnswer skipIdUserAnswer = getBaseMapper().selectOne(deepPagePageIdQuery);
+        LambdaQueryWrapper<UserAnswer> deepPagePageQuery = UserAnswerServiceConverter.getDeepPagePageQuery(userAnswerQueryRequest,skipIdUserAnswer.getId());
+        List<UserAnswer> userAnswersRecord = getBaseMapper().selectList(deepPagePageQuery);
+        Page<UserAnswer> userAnswerPage = new Page<>();
+        userAnswerPage.setRecords(userAnswersRecord);
+
+        return userAnswerPage;
     }
 }
 

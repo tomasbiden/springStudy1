@@ -15,13 +15,30 @@ public class UserAnswerServiceConverter {
 
     }
 
-    public  static LambdaQueryWrapper<UserAnswer> getDeepPagePageQuery(UserAnswerQueryRequest userAnswerQueryRequest){
+
+    public  static LambdaQueryWrapper<UserAnswer> getDeepPagePageIdQuery(UserAnswerQueryRequest userAnswerQueryRequest){
         int current = userAnswerQueryRequest.getCurrent();
         int pageSize = userAnswerQueryRequest.getPageSize();
         int skip=(current-1)*pageSize;
 
         LambdaQueryWrapper<UserAnswer> userAnswerLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        userAnswerLambdaQueryWrapper.exists("select * from user_answer where id >"+skip+"limit"+pageSize+"as join_table"+"where user_answer.id=join_table.id");
+        userAnswerLambdaQueryWrapper.select(UserAnswer::getId);
+        userAnswerLambdaQueryWrapper.eq(UserAnswer::getTenantId,userAnswerQueryRequest.getTenantId());
+        userAnswerLambdaQueryWrapper.last("limit "+skip+",1");
+        return userAnswerLambdaQueryWrapper;
+
+    }
+
+    public  static LambdaQueryWrapper<UserAnswer> getDeepPagePageQuery(UserAnswerQueryRequest userAnswerQueryRequest,Long skipID){
+        int current = userAnswerQueryRequest.getCurrent();
+        int pageSize = userAnswerQueryRequest.getPageSize();
+        int skip=(current-1)*pageSize;
+
+        LambdaQueryWrapper<UserAnswer> userAnswerLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userAnswerLambdaQueryWrapper.eq(UserAnswer::getTenantId,userAnswerQueryRequest.getTenantId());
+//        userAnswerLambdaQueryWrapper.exists("select * from user_answer where id >"+skip+"limit"+pageSize+"as join_table"+"where user_answer.id=join_table.id");
+        userAnswerLambdaQueryWrapper.ge(UserAnswer::getId,skipID)
+                .last("limit "+pageSize);
         return userAnswerLambdaQueryWrapper;
 
     }

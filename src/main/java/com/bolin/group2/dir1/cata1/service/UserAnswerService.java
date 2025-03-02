@@ -1,6 +1,7 @@
 package com.bolin.group2.dir1.cata1.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bolin.group2.dir1.cata1.model.dto.userAnswer.UserAnswerQueryRequest;
@@ -27,4 +28,5 @@ public interface UserAnswerService extends IService<UserAnswer> {
      */
     QueryWrapper<UserAnswer> getQueryWrapper(UserAnswerQueryRequest userAnswerQueryRequest);
 
+    Page<UserAnswer> deepPage(UserAnswerQueryRequest userAnswerQueryRequest);
 }

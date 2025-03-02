@@ -51,8 +51,46 @@ WHERE EXISTS (
 ) LIMIT 10;
 
 
+
+SELECT *
+FROM user_answer_0 father_table
+WHERE EXISTS (
+    SELECT 1
+    FROM user_answer_0 son_table
+    WHERE
+        son_table.id >1893257146937565363
+      AND father_table.id = son_table.id  -- 关联条件写在子查询内部
+
+) LIMIT 10;
+
+
+
+
+SELECT *
+FROM user_answer_0 father_table
+WHERE EXISTS (
+    SELECT 1
+    FROM user_answer_0 son_table
+    WHERE
+        son_table.id >1893257146937565363
+      AND father_table.id = son_table.id  -- 关联条件写在子查询内部
+
+) LIMIT 10;
+
+explain
+select id
+from user_answer_0
+where  tenant_id=8
+and is_delete=0
+limit 4000000,1
+
+-- 查询第 400 万行的 ID
+SELECT id FROM user_answer_0 ORDER BY id LIMIT 1 OFFSET 3999999;
+
+
+explain
 select *
-from user_answer_0 limit 3000000,20
+from user_answer_0 limit 4000000,20
 # 1893257146937565370
 
 

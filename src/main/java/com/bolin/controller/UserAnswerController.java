@@ -83,23 +83,22 @@ public class UserAnswerController {
         long current = userAnswerQueryRequest.getCurrent();
         long size = userAnswerQueryRequest.getPageSize();
         // 查询数据库
-        Page<UserAnswer> userAnswerPage = userAnswerService.page(new Page<>(current, size),
+        Page<UserAnswer> userAnswerPage = userAnswerService.page(new Page<>(current, size,false),
                 userAnswerService.getQueryWrapper(userAnswerQueryRequest));
         return ResultUtils.success(userAnswerPage);
     }
 
     @PostMapping("/list/deepPage")
     public BaseResponse<Page<UserAnswer>> deepPage(@RequestBody UserAnswerQueryRequest userAnswerQueryRequest) {
-        long current = userAnswerQueryRequest.getCurrent();
-        long size = userAnswerQueryRequest.getPageSize();
-        LambdaQueryWrapper<UserAnswer> deepPagePageQuery = UserAnswerServiceConverter.getDeepPagePageQuery(userAnswerQueryRequest);
 
+        Page<UserAnswer> userAnswerPage = userAnswerService.deepPage(userAnswerQueryRequest);
 
 
         // 查询数据库
 //        Page<UserAnswer> userAnswerPage = userAnswerService.page(new Page<>(current, size),
 //                userAnswerService.getQueryWrapper(userAnswerQueryRequest));
-//        return ResultUtils.success(userAnswerPage);
+        return ResultUtils.success(userAnswerPage);
+//        return  null;
     }
 
 
