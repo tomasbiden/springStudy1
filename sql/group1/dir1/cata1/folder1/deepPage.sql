@@ -87,18 +87,29 @@ LIMIT 10;
 
 set profiling = 1
 
-SET profiling_history_size = 1000;
+SET profiling_history_size = 1000
+
+-- 开启优化器跟踪
+SET optimizer_trace = "enabled=on",END_MARKERS_IN_JSON=on;
+
+SET OPTIMIZER_TRACE_MAX_MEM_SIZE=1000000;
+
+SET optimizer_trace_offset=-10, optimizer_trace_limit=10;
 explain
 
 select id
 from user_answer_0
 # force index(`PRIMARY`)
 # force index(index1)
-force index(index_with_isdeleted)
+# force index(index_with_isdeleted)
 where  tenant_id=8
 and is_delete=0
+# order by id asc
 # and app_id=2
+# order by tenant_id
 limit 4000000,1
+
+SELECT * FROM information_schema.optimizer_trace
 
 show profiles
 show profile for query 70
