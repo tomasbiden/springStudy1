@@ -74,8 +74,13 @@ WHERE EXISTS (
     WHERE
         son_table.id >1893257146937565363
       AND father_table.id = son_table.id  -- 关联条件写在子查询内部
+    and son_table.tenant_id=8
+    and son_table.is_delete=0
 
-) LIMIT 10;
+)
+and  tenant_id=8
+and is_delete=0
+LIMIT 10;
 
 explain
 select id
@@ -100,8 +105,19 @@ SELECT id
 FROM user_answer_0 son_table
 WHERE
     son_table.id > 1893257146937565370
+and tenant_id=8
+and is_delete=0
 limit 10
 
 select *
 from user_answer_0  father_table
-where id > (select id from  user_answer_0 where id >=1893257146937565362 limit 1) limit 10
+where id > (select id from  user_answer_0 where id >=1893257146937565362 and  user_answer_0.tenant_id=8 limit 1)
+and tenant_id=8
+limit 10
+
+explain
+select id from user_answer_0
+where tenant_id=8
+and is_delete=0
+order by create_time
+limit 4000000,20
