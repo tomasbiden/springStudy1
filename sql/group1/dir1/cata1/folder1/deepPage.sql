@@ -45,17 +45,25 @@ WHERE EXISTS (
     SELECT 1
     FROM user_answer_0 son_table
     WHERE
-        son_table.id > 1893229443865804800
+        son_table.id >1893257146937565362
       AND father_table.id = son_table.id  -- 关联条件写在子查询内部
 
 ) LIMIT 10;
 
+
+select *
+from user_answer_0 limit 3000000,20
+# 1893257146937565370
+
+
+
+
 SELECT id
 FROM user_answer_0 son_table
 WHERE
-    son_table.id > 1893229443865804800
+    son_table.id > 1893257146937565370
 limit 10
 
 select *
 from user_answer_0  father_table
-where id > (select id from  user_answer_0 where id >1893229443865804800 limit 1) limit 10
+where id > (select id from  user_answer_0 where id >=1893257146937565362 limit 1) limit 10
