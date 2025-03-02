@@ -100,8 +100,8 @@ explain
 select id
 from user_answer_0
 # force index(`PRIMARY`)
-# force index(index1)
-# force index(index_with_isdeleted)
+force index(index1)
+force index(index_with_isdeleted)
 where  tenant_id=8
 and is_delete=0
 # order by id asc
@@ -166,6 +166,13 @@ order by create_time
 desc
 
 limit 20
+# extra using index using where 覆盖索引，  using where 回表
+explain
+select id
+from user_answer_1
+where  id > 1893255003803418626
+# and is_delete=0
+limit 10
 
 
                                                                                                                                                                                         limit 20
