@@ -19,7 +19,7 @@ public class LogisticsChannelServiceImpl extends ServiceImpl<LogisticsChannelMap
     @Override
     public Long save(LogisticsChannelSaveParam param) {
         /*
-        LambdaQueryWrapper<LogisticsChannel> queryBylogisticsChannelCode = LogisticsChannelServiceConvertor.toQueryBylogisticsChannelCode(param.getTenantId(), param.getLogisticsChannelCode());
+        LambdaQueryWrapper<LogisticsChannel> queryBylogisticsChannelCode = LogisticsChannelServiceConverter.toQueryBylogisticsChannelCode(param.getTenantId(), param.getLogisticsChannelCode());
         List<LogisticsChannel> logisticsChannels = getBaseMapper().selectList(queryBylogisticsChannelCode);
         if(CollectionUtils.isEmpty(logisticsChannels)){
             LogisticsChannel logisticsChannel = LogisticsChannelConverter.INSTANCE.toLogisticsChannel(param);

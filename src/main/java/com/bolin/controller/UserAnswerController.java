@@ -2,14 +2,13 @@ package com.bolin.controller;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bolin.group2.dir1.cata1.common.BaseResponse;
 import com.bolin.group2.dir1.cata1.common.ErrorCode;
 import com.bolin.group2.dir1.cata1.common.ResultUtils;
-import com.bolin.group2.dir1.cata1.demos.pojo.App;
-import com.bolin.group2.dir1.cata1.demos.pojo.User;
+import com.bolin.group2.dir1.cata1.converter.UserAnswerServiceConverter;
 import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
-import com.bolin.group2.dir1.cata1.exception.BusinessException;
 import com.bolin.group2.dir1.cata1.exception.ThrowUtils;
 import com.bolin.group2.dir1.cata1.model.dto.userAnswer.UserAnswerAddRequest;
 import com.bolin.group2.dir1.cata1.model.dto.userAnswer.UserAnswerQueryRequest;
@@ -18,7 +17,6 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,6 +86,20 @@ public class UserAnswerController {
         Page<UserAnswer> userAnswerPage = userAnswerService.page(new Page<>(current, size),
                 userAnswerService.getQueryWrapper(userAnswerQueryRequest));
         return ResultUtils.success(userAnswerPage);
+    }
+
+    @PostMapping("/list/deepPage")
+    public BaseResponse<Page<UserAnswer>> deepPage(@RequestBody UserAnswerQueryRequest userAnswerQueryRequest) {
+        long current = userAnswerQueryRequest.getCurrent();
+        long size = userAnswerQueryRequest.getPageSize();
+        LambdaQueryWrapper<UserAnswer> deepPagePageQuery = UserAnswerServiceConverter.getDeepPagePageQuery(userAnswerQueryRequest);
+
+
+
+        // 查询数据库
+//        Page<UserAnswer> userAnswerPage = userAnswerService.page(new Page<>(current, size),
+//                userAnswerService.getQueryWrapper(userAnswerQueryRequest));
+//        return ResultUtils.success(userAnswerPage);
     }
 
 

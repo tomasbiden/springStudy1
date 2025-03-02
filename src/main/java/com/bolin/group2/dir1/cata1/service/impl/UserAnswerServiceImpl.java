@@ -3,8 +3,7 @@ package com.bolin.group2.dir1.cata1.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.bolin.group2.dir1.cata1.constant.CommonConstant;
-import com.bolin.group2.dir1.cata1.converter.UserAnswerServiceConvertor;
+import com.bolin.group2.dir1.cata1.converter.UserAnswerServiceConverter;
 import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
 import com.bolin.group2.dir1.cata1.model.dto.userAnswer.UserAnswerQueryRequest;
 import com.bolin.group2.dir1.cata1.service.UserAnswerService;
@@ -26,7 +25,7 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
 
     @Override
     public List<UserAnswer> getUserAnswerByAppId(Long appId) {
-        LambdaQueryWrapper<UserAnswer> queryByAppId = UserAnswerServiceConvertor.toQueryByAppId(appId);
+        LambdaQueryWrapper<UserAnswer> queryByAppId = UserAnswerServiceConverter.toQueryByAppId(appId);
         List<UserAnswer> userAnswers = getBaseMapper().selectList(queryByAppId);
 
         return userAnswers;
