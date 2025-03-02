@@ -75,11 +75,13 @@ WHERE EXISTS (
         son_table.id >1893257146937565363
       AND father_table.id = son_table.id  -- 关联条件写在子查询内部
     and son_table.tenant_id=8
+    and son_table.app_id=2
     and son_table.is_delete=0
 
 )
 and  tenant_id=8
 and is_delete=0
+and app_id=2
 LIMIT 10;
 
 explain
