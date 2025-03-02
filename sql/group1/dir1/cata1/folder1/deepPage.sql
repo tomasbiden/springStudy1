@@ -175,4 +175,25 @@ where  id > 1893255003803418626
 limit 10
 
 
+
+
+SET profiling = 1;
+SET profiling_history_size = 1000;
+
+
+SHOW PROFILES;
+
+
+-- 开启优化器跟踪
+SET optimizer_trace = "enabled=on",END_MARKERS_IN_JSON=on;
+
+SET OPTIMIZER_TRACE_MAX_MEM_SIZE=1000000;
+
+SET optimizer_trace_offset=-10, optimizer_trace_limit=10
+
+
+-- 查看跟踪结果
+SELECT * FROM information_schema.optimizer_trace
+
+
                                                                                                                                                                                         limit 20
