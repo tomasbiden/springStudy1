@@ -24,7 +24,9 @@ public class UserAnswerServiceConverter {
         LambdaQueryWrapper<UserAnswer> userAnswerLambdaQueryWrapper = new LambdaQueryWrapper<>();
         userAnswerLambdaQueryWrapper.select(UserAnswer::getId);
         userAnswerLambdaQueryWrapper.eq(UserAnswer::getTenantId,userAnswerQueryRequest.getTenantId());
+        userAnswerLambdaQueryWrapper.eq(userAnswerQueryRequest.getAppId()!=null,UserAnswer::getAppId,userAnswerQueryRequest.getAppId());
         userAnswerLambdaQueryWrapper.last("limit "+skip+",1");
+//        userAnswerLambdaQueryWrapper.orderByDesc(UserAnswer::getId);
         return userAnswerLambdaQueryWrapper;
 
     }
@@ -36,8 +38,11 @@ public class UserAnswerServiceConverter {
 
         LambdaQueryWrapper<UserAnswer> userAnswerLambdaQueryWrapper = new LambdaQueryWrapper<>();
         userAnswerLambdaQueryWrapper.eq(UserAnswer::getTenantId,userAnswerQueryRequest.getTenantId());
+        userAnswerLambdaQueryWrapper.eq(userAnswerQueryRequest.getAppId()!=null,UserAnswer::getAppId,userAnswerQueryRequest.getAppId());
+
 //        userAnswerLambdaQueryWrapper.exists("select * from user_answer where id >"+skip+"limit"+pageSize+"as join_table"+"where user_answer.id=join_table.id");
-        userAnswerLambdaQueryWrapper.ge(UserAnswer::getId,skipID)
+        userAnswerLambdaQueryWrapper.le(UserAnswer::getId,skipID)
+                .orderByDesc(UserAnswer::getId)
                 .last("limit "+pageSize);
         return userAnswerLambdaQueryWrapper;
 
