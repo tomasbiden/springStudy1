@@ -1,4 +1,4 @@
-package com.bolin.group1.dir2.cata1.folder.steam;
+package com.bolin.group1.dir2.cata1.folder.javaBasic.steam;
 
 import lombok.Builder;
 import lombok.Data;
