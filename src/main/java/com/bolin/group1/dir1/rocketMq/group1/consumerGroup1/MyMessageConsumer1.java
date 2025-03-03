@@ -5,7 +5,7 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@RocketMQMessageListener(topic = "normalTopic1",selectorExpression = "messageTag",consumerGroup = "my-consumer_group_1_1")
+@RocketMQMessageListener(topic = "normalTopic1",selectorExpression = "messageTag",consumerGroup = "my-consumer_group_1_1",maxReconsumeTimes = 2)
 public class MyMessageConsumer1 implements RocketMQListener<String> {
     int i=0;
     @Override
