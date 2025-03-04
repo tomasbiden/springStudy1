@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RocketMQMessageListener(topic = "FifoTopic1",selectorExpression = "tag1",consumerGroup = "fifoConsumerMutiThread",maxReconsumeTimes = 2,consumeMode= ConsumeMode.ORDERLY)
+//@RocketMQMessageListener(topic = "FifoTopic1",selectorExpression = "tag1",consumerGroup = "fifoConsumerMutiThread",maxReconsumeTimes = 2,consumeMode= ConsumeMode.ORDERLY)
 public class FifoConsumerWithOrderConsumeSet implements RocketMQListener<String> {
 //   spiring 通过类型
     @Autowired
