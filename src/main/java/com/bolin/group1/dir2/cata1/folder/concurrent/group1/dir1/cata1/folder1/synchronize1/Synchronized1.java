@@ -67,6 +67,71 @@ public class Synchronized1 {
         thread2.start();
     }
 
+    public static int count1=1;
+
+    private Object lock1=new Object();
+
+    private static Boolean isThread1_1=true;
+
+    public static void printoneToHundrendByMy1(){
+      Thread thread1=  new Thread(()->{
+            while (true){
+                synchronized (lock){
+                    if(count1>100){
+                        lock.notifyAll();
+                        break;
+                    }
+                    if(isThread1_1){
+                        System.out.println("Thread1:"+count1);
+                        count1++;
+                        isThread1_1=false;
+                        lock.notify();
+
+                    }else {
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+
+
+
+                }
+            }
+        });
+
+      Thread thread2=new Thread(()->{
+          while (true){
+              synchronized (lock){
+                  if(count1>100){
+                      lock.notify();
+                      break;
+                  }
+
+                  if(!isThread1_1){
+                      System.out.println("Thread2:"+count1);
+                      count1++;
+                      isThread1_1=true;
+                      lock.notify();
+                  }else {
+                      try {
+                          lock.wait();
+                      }catch (InterruptedException e){
+                          e.printStackTrace();
+
+                      }
+
+
+                  }
+              }
+          }
+      });
+      thread1.start();
+      thread2.start();
+    }
+
 
     public static void printOneToHundrendWithoutLock(){
 
@@ -106,6 +171,7 @@ public class Synchronized1 {
 
     public  static void main(String[] args){
 //        printOneToHundrend();
-        printOneToHundrendWithoutLock();
+//        printOneToHundrendWithoutLock();
+        printoneToHundrendByMy1();
     }
 }
