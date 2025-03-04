@@ -8,7 +8,8 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
   profiles:
-    active: dev #指定 环境配置
+    active: shardingSphere
+#      active: dev #指定 环境配置
   datasource:
 #    type: com.zaxxer.hikari.HikariDataSource
 #    driver-class-name: com.mysql.cj.jdbc.Driver
@@ -42,7 +43,3 @@ logging:
 server:
   address: 0.0.0.0
   port: 8080
-mybatis-plus:
-  configuration:
-    map-underscore-to-camel-case: true
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
