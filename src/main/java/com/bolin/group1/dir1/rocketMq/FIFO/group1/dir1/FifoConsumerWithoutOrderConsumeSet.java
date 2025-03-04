@@ -21,7 +21,7 @@ public class FifoConsumerWithoutOrderConsumeSet implements RocketMQListener<Stri
         i++;
 //        System.out.println("第"+i+"次");
 //        throw new RuntimeException("消费失败");
-        System.out.println("接收到消息: " + "my-consumer_group_1_1"+message);
+        System.out.println("结果:"+Thread.currentThread().getId()+Thread.currentThread().getName()+":"+message);
         UserAnswerQueryRequest userAnswerQueryRequest=new UserAnswerQueryRequest();
         userAnswerQueryRequest.setTenantId(8L);
         userAnswerQueryRequest.setAppId(2L);
