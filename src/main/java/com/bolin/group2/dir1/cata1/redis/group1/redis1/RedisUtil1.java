@@ -387,6 +387,102 @@ public class RedisUtil1 {
      */
 
 
+    // 1. 阻塞等待 + 看门狗自动续期
+    public static void methodWithLock(RedissonClient redissonClient) {
+        RLock lock = redissonClient.getLock("resourceLock");
+        lock.lock(); // 阻塞直到获取锁，默认30秒过期，看门狗自动续期
+        try {
+            // 业务逻辑（如数据库操作）
+            System.out.println("执行需要长期持有的任务...");
+        } finally {
+            lock.unlock(); // 必须手动释放
+        }
+    }
+
+    // 2. 指定等待时间 + 看门狗续期
+    public static void methodWithTryLock(RedissonClient redissonClient) throws InterruptedException {
+        RLock lock = redissonClient.getLock("resourceLock");
+        boolean isLocked = lock.tryLock(5, TimeUnit.SECONDS); // 最多等5秒
+        if (isLocked) {
+            try {
+                // 业务逻辑（如支付回调处理）
+                System.out.println("获取锁成功，处理业务...");
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            System.out.println("等待超时，执行降级策略");
+        }
+    }
+
+    // 3. 指定等待时间和固定过期时间
+    public static void methodWithTryLockAndLease(RedissonClient redissonClient) throws InterruptedException {
+        RLock lock = redissonClient.getLock("resourceLock");
+        boolean isLocked = lock.tryLock(3, 10, TimeUnit.SECONDS); // 等3秒，锁10秒后自动过期
+        if (isLocked) {
+            try {
+                // 业务逻辑（如库存扣减）
+                System.out.println("获取锁成功，10秒内完成业务...");
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    // 4. 立即获取锁 + 固定过期时间
+    public static void methodWithLockAndLease(RedissonClient redissonClient) {
+        RLock lock = redissonClient.getLock("resourceLock");
+        lock.lock(30, TimeUnit.SECONDS); // 立即获取，30秒后自动释放
+        try {
+            // 业务逻辑（如文件处理）
+            System.out.println("立即执行且30秒内完成...");
+        } finally {
+            lock.unlock();
+        }
+    }
+
+
+/**
+ * 注意事项：
+ * 1. 【强制】解锁必须放在finally块，避免死锁
+ * 2. 【推荐】使用tryLock时需处理InterruptedException（如线程中断）
+ * 3. 【警告】leaseTime必须大于业务执行时间，否则提前释放导致数据不一致
+ * 4. 【建议】看门狗机制适合无法预估时间的场景，但会增加Redis压力
+ * 5. 【最佳实践】锁名称需唯一标识资源（如order_123）
+ *
+ * 常见面试问题与回答：
+ * 1. Q: Redisson的看门狗机制是什么？
+ *    A: 后台线程每隔10秒检查锁状态，若未释放则重置过期时间到30秒
+ *
+ * 2. Q: tryLock(5,10,TimeUnit.SECONDS)参数含义？
+ *    A: 最多等待5秒获取锁，锁持有10秒后自动过期
+ *
+ * 3. Q: 为什么需要手动unlock()？
+ *    A: 防止线程终止时锁无法自动释放（看门狗依赖线程存活）
+ *
+ * 4. Q: Redisson锁如何实现可重入？
+ *    A: 通过计数器记录线程获取次数，unlock()时递减直到0释放
+ *
+ * 5. Q: 锁过期时间和业务执行时间的关系？
+ *    A: 若使用固定leaseTime，必须确保业务在时间内完成
+ *
+ * 6. Q: Redis主从切换会导致锁失效吗？
+ *    A: 可能（RedLock可缓解但不完全解决），需结合业务容错
+ *
+ * 7. Q: 如何避免锁被其他线程释放？
+ *    A: 锁关联客户端ID，释放时校验身份
+ *
+ * 8. Q: lock()和tryLock()的性能差异？
+ *    A: lock()会阻塞线程，高并发时建议用tryLock避免线程堆积
+ *
+ * 9. Q: 锁自动续期失败的原因？
+ *    A: Redis节点宕机/网络中断，或看门狗线程被终止
+ *
+ * 10. Q: 如何实现公平锁？
+ *     A: 使用getFairLock()，基于Redis队列实现先进先出
+ */
+
+
 
 
 
