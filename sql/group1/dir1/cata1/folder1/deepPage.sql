@@ -100,14 +100,14 @@ explain
 select id
 from user_answer_0
 # force index(`PRIMARY`)
-force index(index1)
-force index(index_with_isdeleted)
+# force index(index1)
+# force index(index_with_isdeleted)
 where  tenant_id=8
 and is_delete=0
 # order by id asc
 # and app_id=2
 # order by tenant_id
-limit 4000000,1
+limit 4000000,10
 
 SELECT * FROM information_schema.optimizer_trace
 
@@ -119,6 +119,15 @@ SELECT id FROM user_answer_0 ORDER BY id LIMIT 1 OFFSET 3999999;
 
 
 explain
+select *
+from user_answer_0
+limit 4000000,20;
+union
+select *
+from user_answer_1
+limit 4000000,50
+
+
 select *
 from user_answer_0 limit 4000000,20
 # 1893257146937565370
@@ -203,6 +212,28 @@ where
 # tenant_id=8
 # and is_delete=0
  id=1893229494142159633
+
+set global slow_query_log=1;
+
+
+show global variables like '%slow_query_log%';
+
+# long_query_time 表示慢查询的阈值，默认10秒
+show global variables like '%long_query_time%';
+
+set global long_query_time=1;
+explain
+select id
+from user_answer_0
+# force index(`PRIMARY`)
+# force index(index1)
+force index(index_with_isdeleted)
+where  tenant_id=8
+  and is_delete=0
+# order by id asc
+# and app_id=2
+# order by tenant_id
+limit 4000000,10
 
 
                                                                                                                                                                                         limit 20
