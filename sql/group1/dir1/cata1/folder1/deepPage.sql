@@ -195,5 +195,14 @@ SET optimizer_trace_offset=-10, optimizer_trace_limit=10
 -- 查看跟踪结果
 SELECT * FROM information_schema.optimizer_trace
 
+explain
+select id
+from  user_answer_0
+force index(`PRIMARY`)
+where
+# tenant_id=8
+# and is_delete=0
+ id=1893229494142159633
+
 
                                                                                                                                                                                         limit 20
