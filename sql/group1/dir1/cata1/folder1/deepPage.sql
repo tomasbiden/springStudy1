@@ -152,9 +152,14 @@ limit 10
 
 explain
 select id from user_answer_0
+# ignore index(index_with_isdeleted)
+# ignore  index(PRIMARY)
+# ignore index(index1)
+# ignore index(index2)
 where tenant_id=8
 and is_delete=0
-order by create_time
+
+# order by create_time
 limit 4000000,20
 
 
@@ -228,12 +233,23 @@ from user_answer_0
 # force index(`PRIMARY`)
 # force index(index1)
 force index(index_with_isdeleted)
-where  tenant_id=8
-  and is_delete=0
+# where  tenant_id=8
+where  user_answer_0.app_id>-1
 # order by id asc
-# and app_id=2
+# where app_id>1
 # order by tenant_id
 limit 4000000,10
+
+explain
+select *
+from user_answer_0
+# force  index(index_with_isdeleted)
+where tenant_id=8
+and is_delete=0
+limit 0,20
+
+
+
 
 
                                                                                                                                                                                         limit 20
