@@ -248,6 +248,100 @@ where tenant_id=8
 and is_delete=0
 limit 0,20
 
+#  2s  走 range查询
+explain
+select order_id
+from  user_answer_0
+          force index(index3)
+where  tenant_id=8
+  and is_delete=0
+  and app_type between 0 and 2
+# order by app_id
+order by app_type desc
+# limit 20
+limit 4000000,10
+
+# 1.4 s
+select order_id
+from  user_answer_0
+          force index(index3)
+where  tenant_id=8
+  and is_delete=0
+#   and app_type between 0 and 2
+# order by app_id
+# order by app_type desc
+# limit 20
+limit 4000000,10
+
+
+#  3s  走 range查询
+explain
+select order_id
+from  user_answer_0
+          force index(index4)
+where  tenant_id=8
+  and is_delete=0
+  and create_time between '2024-01-01 00:00:00' and '2026-12-31 23:59:59'
+# order by app_id
+order by create_time desc
+# limit 20
+limit 4000000,10
+
+#  3s id_deleted 和 create_time 的顺序差不多
+explain
+select order_id
+from  user_answer_0
+          force index(index5)
+where  tenant_id=8
+  and is_delete=0
+  and create_time between '2024-01-01 00:00:00' and '2026-12-31 23:59:59'
+# order by app_id
+order by create_time desc
+# limit 20
+limit 4000000,10
+
+#  2s app_type 来模拟 时间 范围查询
+explain
+select order_id
+from  user_answer_0
+          force index(index3)
+where  tenant_id=8
+  and is_delete=0
+  and app_type between 0 and 3
+# order by app_id
+order by  app_type desc
+# limit 20
+limit 4000000,10
+
+
+#  2.5秒左右 走一个时间范围查询
+explain
+# ANALYZE
+select order_id
+from  user_answer_0
+          force index(index7)
+where  tenant_id=8
+  and is_delete=0
+  and create_time2 between 1741270932 and 1741270933
+# order by app_id
+order by  create_time2 desc
+# limit 20
+limit 4000000,20
+
+
+#  22秒左右   Using index condition; Using where; Using MRR  走一个所有下推
+explain
+# ANALYZE
+select order_id
+from  user_answer_0
+          force index(index7withoutisDeleted)
+where  tenant_id=8
+  and is_delete=0
+  and create_time2 between 1741270932 and 1741270933
+# order by app_id
+# order by  create_time2 desc
+# limit 20
+limit 4000000,20
 
 
 
