@@ -50,7 +50,7 @@ public class UserAnswerController {
         BeanUtils.copyProperties(userAnswerAddRequest, userAnswer);
         List<String> choices = userAnswerAddRequest.getChoices();
         userAnswer.setChoices(JSONUtil.toJsonStr(choices));
-        userAnswer.setId(IdUtil.getSnowflakeNextId());
+        userAnswer.setOrderId(IdUtil.getSnowflakeNextId());
 
         // 写入数据库
         try {
@@ -60,7 +60,7 @@ public class UserAnswerController {
             // ignore error
         }
         // 返回新写入的数据 id
-        long newUserAnswerId = userAnswer.getId();
+        long newUserAnswerId = userAnswer.getOrderId();
 
         return ResultUtils.success(newUserAnswerId);
 

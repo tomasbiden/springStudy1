@@ -16,8 +16,8 @@ public class UserAnswer implements Serializable {
     /**
      * 
      */
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    @TableId(type = IdType.NONE)
+    private Long orderId;
 
     private Long tenantId;
 

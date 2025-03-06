@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-@RocketMQMessageListener(topic = "normalTopic1",selectorExpression = "messageTag",consumerGroup = "normal-consumer_group_1_1",maxReconsumeTimes = 2)
+//@RocketMQMessageListener(topic = "normalTopic1",selectorExpression = "messageTag",consumerGroup = "normal-consumer_group_1_1",maxReconsumeTimes = 2)
 public class MyMessageConsumer1 implements RocketMQListener<String> {
 //   spiring 通过类型
     @Autowired

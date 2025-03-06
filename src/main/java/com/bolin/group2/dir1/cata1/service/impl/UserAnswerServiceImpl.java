@@ -109,7 +109,7 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
         long size = userAnswerQueryRequest.getPageSize();
         LambdaQueryWrapper<UserAnswer> deepPagePageIdQuery = UserAnswerServiceConverter.getDeepPagePageIdQuery(userAnswerQueryRequest);
         UserAnswer skipIdUserAnswer = getBaseMapper().selectOne(deepPagePageIdQuery);
-        LambdaQueryWrapper<UserAnswer> deepPagePageQuery = UserAnswerServiceConverter.getDeepPagePageQuery(userAnswerQueryRequest,skipIdUserAnswer.getId());
+        LambdaQueryWrapper<UserAnswer> deepPagePageQuery = UserAnswerServiceConverter.getDeepPagePageQuery(userAnswerQueryRequest,skipIdUserAnswer.getOrderId());
         List<UserAnswer> userAnswersRecord = getBaseMapper().selectList(deepPagePageQuery);
         Page<UserAnswer> userAnswerPage = new Page<>();
         userAnswerPage.setRecords(userAnswersRecord);

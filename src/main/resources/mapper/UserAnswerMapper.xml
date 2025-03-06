@@ -4,25 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bolin.mapper.UserAnswerMapper">
 
-    <resultMap id="BaseResultMap" type="com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="appId" column="appId" jdbcType="BIGINT"/>
-            <result property="apptype" column="appType" jdbcType="TINYINT"/>
-            <result property="scoringstrategy" column="scoringStrategy" jdbcType="TINYINT"/>
-            <result property="choices" column="choices" jdbcType="VARCHAR"/>
-            <result property="resultid" column="resultId" jdbcType="BIGINT"/>
-            <result property="resultname" column="resultName" jdbcType="VARCHAR"/>
-            <result property="resultdesc" column="resultDesc" jdbcType="VARCHAR"/>
-            <result property="resultpicture" column="resultPicture" jdbcType="VARCHAR"/>
-            <result property="resultscore" column="resultScore" jdbcType="INTEGER"/>
-            <result property="userid" column="userId" jdbcType="BIGINT"/>
-            <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
-            <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
-            <result property="isdelete" column="isDelete" jdbcType="TINYINT"/>
-    </resultMap>
 
     <sql id="Base_Column_List">
-        id,appId,appType,
+        orderId,appId,appType,
         scoringStrategy,choices,resultId,
         resultName,resultDesc,resultPicture,
         resultScore,userId,createTime,

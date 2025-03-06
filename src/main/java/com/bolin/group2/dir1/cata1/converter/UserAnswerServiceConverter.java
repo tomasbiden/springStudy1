@@ -22,11 +22,11 @@ public class UserAnswerServiceConverter {
         int skip=(current-1)*pageSize;
 
         LambdaQueryWrapper<UserAnswer> userAnswerLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        userAnswerLambdaQueryWrapper.select(UserAnswer::getId);
+        userAnswerLambdaQueryWrapper.select(UserAnswer::getOrderId);
         userAnswerLambdaQueryWrapper.eq(UserAnswer::getTenantId,userAnswerQueryRequest.getTenantId());
         userAnswerLambdaQueryWrapper.eq(userAnswerQueryRequest.getAppId()!=null,UserAnswer::getAppId,userAnswerQueryRequest.getAppId());
         userAnswerLambdaQueryWrapper.last("limit "+skip+",1");
-//        userAnswerLambdaQueryWrapper.orderByDesc(UserAnswer::getId);
+        userAnswerLambdaQueryWrapper.orderByDesc(UserAnswer::getCreateTime);
         return userAnswerLambdaQueryWrapper;
 
     }
@@ -34,15 +34,15 @@ public class UserAnswerServiceConverter {
     public  static LambdaQueryWrapper<UserAnswer> getDeepPagePageQuery(UserAnswerQueryRequest userAnswerQueryRequest,Long skipID){
         int current = userAnswerQueryRequest.getCurrent();
         int pageSize = userAnswerQueryRequest.getPageSize();
-        int skip=(current-1)*pageSize;
+
 
         LambdaQueryWrapper<UserAnswer> userAnswerLambdaQueryWrapper = new LambdaQueryWrapper<>();
         userAnswerLambdaQueryWrapper.eq(UserAnswer::getTenantId,userAnswerQueryRequest.getTenantId());
         userAnswerLambdaQueryWrapper.eq(userAnswerQueryRequest.getAppId()!=null,UserAnswer::getAppId,userAnswerQueryRequest.getAppId());
 
 //        userAnswerLambdaQueryWrapper.exists("select * from user_answer where id >"+skip+"limit"+pageSize+"as join_table"+"where user_answer.id=join_table.id");
-        userAnswerLambdaQueryWrapper.le(UserAnswer::getId,skipID)
-                .orderByDesc(UserAnswer::getId)
+        userAnswerLambdaQueryWrapper.ge(UserAnswer::getOrderId,skipID)
+//                .orderByDesc(UserAnswer::getOrderId)
                 .last("limit "+pageSize);
         return userAnswerLambdaQueryWrapper;
 

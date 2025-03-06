@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Random;
 
 @Component
-@RocketMQMessageListener(topic = "FifoTopic1",selectorExpression = "tag1",consumerGroup = "fifoConsumerMutiThread",maxReconsumeTimes = 2,consumeMode= ConsumeMode.ORDERLY)
+//@RocketMQMessageListener(topic = "FifoTopic1",selectorExpression = "tag1",consumerGroup = "fifoConsumerMutiThread",maxReconsumeTimes = 2,consumeMode= ConsumeMode.ORDERLY)
 public class FifoConsumerWithOrderConsumeSet implements RocketMQListener<String> {
 //   spiring 通过类型
     @Autowired
