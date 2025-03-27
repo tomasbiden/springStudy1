@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CommonTips {
@@ -39,11 +40,15 @@ public class CommonTips {
         Map<String, List<Product>> collect = products.stream().collect(Collectors.groupingBy(Product::getSku));
 //        products.stream().collect(Collectors.groupingBy(Product::getSku,Product::getPrice,Collectors.reducing((left,right)->left)));
 //        Optional是在map映射的时候引入的啊
+        Map<String, Product> oneToOneClass = products.stream().collect(Collectors.toMap(Product::getSku, Function.identity(), (existing, replacement) -> existing));
         Map<String, Optional<BigDecimal>> collect1 = products.stream().collect(Collectors.groupingBy(Product::getSku, Collectors.mapping(Product::getPrice, Collectors.reducing((left, right) -> left))));
         Product needSetProdcutVO = new Product();
         needSetProdcutVO.setSku("sku11");
 //        这里的Option.empty是为了配合后面的ifPresent
+//        如何map本身已经用了Option处理，可以用getOrDefault
         collect1.getOrDefault(needSetProdcutVO.getSku(),Optional.empty()).ifPresent(needSetProdcutVO::setPrice);
+//      但是我感觉用Option.ofNullable是更为简单处理null的方式啊
+        Optional.ofNullable(oneToOneClass.get("sku11")).map(Product::getPrice).ifPresent(needSetProdcutVO::setPrice);
 
 
 
