@@ -28,6 +28,19 @@ public class UserController {
     TestService testService;
 
 
+    @PostMapping("/doNull")
+    public String doNull(HttpServletRequest request, @RequestBody TestParam testParam) {
+        // 获取客户端的 IP 地址
+        String ipAddress = getClientIP(request);
+
+        // 调用 service 层的方法
+//        userService.test1();
+//        testService.test(request,testParam);
+        // 返回结果并附带客户端 IP 地址
+        return "Client IP: " + ipAddress;
+    }
+
+
     @PostMapping("/test")
     public String test1(HttpServletRequest request, @RequestBody TestParam testParam) {
         // 获取客户端的 IP 地址
