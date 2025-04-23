@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String testPath = "/user/test";
+        String testPath = "/user/doNull";
         registry.addInterceptor(authorityHandler).addPathPatterns(testPath);
     }
 
