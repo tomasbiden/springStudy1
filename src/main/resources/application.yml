@@ -8,7 +8,7 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
   profiles:
-    active: shardingSphere
+    active: dev2
 #      active: dev #指定 环境配置
   datasource:
 #    type: com.zaxxer.hikari.HikariDataSource
@@ -43,3 +43,19 @@ logging:
 server:
   address: 0.0.0.0
   port: 8080
+notification:
+  enabled: true
+  default-channel: email
+  channels:
+    - type: sms
+      provider: aliyun
+      api-key: abc123
+      api-secret: secretXYZ
+    - type: email
+      provider: sendgrid
+      smtp-host: smtp.sendgrid.net
+      smtp-port: 587
+    - type: wechat
+      provider: wecom
+      corp-id: wx123456
+      agent-id: 1000002
