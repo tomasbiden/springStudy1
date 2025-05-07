@@ -30,7 +30,12 @@ public class CommandLineRunnerExample implements  CommandLineRunner {
 
     public void run(String... args) throws Exception {
 //        这里可以进行初始化，加载数据
-        App app = appServiceImpl.test1();
+        try {
+            App app = appServiceImpl.test1();
+        }catch (Exception e){
+//             暂时放过
+        }
+
     }
 
 }

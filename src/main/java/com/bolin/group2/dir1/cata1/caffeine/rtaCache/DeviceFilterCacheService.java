@@ -150,7 +150,7 @@ public class DeviceFilterCacheService implements CommandLineRunner {
         try {
             initCache();
         } catch (Exception e) {
-            throw new IllegalStateException("device filter Cache init fail", e);
+//            throw new IllegalStateException("device filter Cache init fail", e);
         }
     }
 }
