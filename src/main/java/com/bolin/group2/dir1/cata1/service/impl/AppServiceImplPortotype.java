@@ -25,11 +25,11 @@ public class AppServiceImplPortotype extends ServiceImpl<AppMapper, App>
 
 
 
-    public void  test1(){
+    public App  test1(){
         int h=1;
         App app = appMapper.selectById(1);
 
-        return;
+        return app;
 
     }
 
