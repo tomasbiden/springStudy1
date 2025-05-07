@@ -43,4 +43,18 @@ public class CacheConfig {
         return cacheManager;
     }
 
+    @Bean("deviceFilterCaffeineCacheManager2")
+    public CaffeineCacheManager deviceFilterCaffeineCacheManager2() {
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+        cacheManager.setCaffeine(Caffeine.newBuilder()
+                .initialCapacity(1)
+                .maximumSize(20)
+//                已经有 cache.get(key, () -> getRegionDeviceSetByKey(key)) 来替代refresh作用了
+//                 .removalListener((key, value, cause) -> deviceFilterCacheService.refreshCache(key,value,cause))
+                .refreshAfterWrite(Duration.ofSeconds(30))
+                .recordStats());
+        cacheManager.setCacheLoader(key -> deviceFilterCacheService.getRegionDeviceSetByKey(key));
+        return cacheManager;
+    }
+
 }
