@@ -43,6 +43,10 @@ public class CacheConfig {
         return cacheManager;
     }
 
+    /**
+     * 适用场景 用ForkJoinPool.commonPool()  非阻塞异步
+     * @return
+     */
     @Bean("deviceFilterCaffeineCacheManager2")
     public CaffeineCacheManager deviceFilterCaffeineCacheManager2() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
