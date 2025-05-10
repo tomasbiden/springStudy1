@@ -1,22 +1,15 @@
 package com.bolin.group1.dir1.springEvent.dir1.group1;
 
-import com.bolin.Application;
+import com.bolin.SpringApp1;
 import com.bolin.controller.UserAnswerController;
-import com.bolin.group2.dir1.cata1.demos.pojo.UserAnswer;
 import com.bolin.mapper.UserAnswerMapper;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
-
-import java.util.ArrayList;
 
 /**
  * @TransactionalEventListener 知识体系详解
@@ -66,7 +59,7 @@ public class TransactionalEventDemo {
 
     // 4. 测试入口
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(SpringApp1.class, args);
         OrderService service = context.getBean(OrderService.class);
         UserAnswerController userAnswerController = context.getBean(UserAnswerController.class);
         UserAnswerMapper userAnswerMapper = context.getBean(UserAnswerMapper.class);

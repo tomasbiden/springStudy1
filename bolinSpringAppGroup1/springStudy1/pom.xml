@@ -281,7 +281,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.bolin.Application</mainClass>
+                    <mainClass>com.bolin.SpringApp1</mainClass>
                     <skip>false</skip>
                 </configuration>
                 <executions>

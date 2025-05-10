@@ -13,10 +13,10 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy(proxyTargetClass = false) // 使用 JDK 动态代理
 @EnableFeignClients(basePackages = "com.bolin.group2.dir1.cata1.client")
 @EnableDiscoveryClient
-public class Application {
+public class SpringApp1 {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(SpringApp1.class, args);
     }
 
 }
