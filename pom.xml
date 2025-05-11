@@ -31,6 +31,7 @@
     <!-- 子模块声明 -->
     <modules>
         <module>bolinSpringAppGroup1/springStudy1</module>
+<!--        <module>bolinSpringAppGroup1/myExternalLibraries/hutool-5-master</module>-->
     </modules>
 
     <properties>
