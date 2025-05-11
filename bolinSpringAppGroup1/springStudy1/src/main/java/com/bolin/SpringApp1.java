@@ -1,5 +1,7 @@
 package com.bolin;
 
+import cn.hutool.json.JSONUtil;
+import com.bolin.group2.dir1.cata1.demos.web.User;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +18,11 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class SpringApp1 {
 
     public static void main(String[] args) {
+        JSONUtil jsonUtil = new JSONUtil();
+        User user = new User();
+        user.setAge(10);
+        JSONUtil.toJsonStr(jsonUtil);
+
         SpringApplication.run(SpringApp1.class, args);
     }
 
