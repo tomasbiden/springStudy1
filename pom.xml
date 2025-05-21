@@ -197,6 +197,12 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
            <version>3.4.3</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/one.util/streamex -->
+        <dependency>
+            <groupId>one.util</groupId>
+            <artifactId>streamex</artifactId>
+            <version>0.7.2</version>
+        </dependency>
 
     </dependencies>
     <dependencyManagement>
