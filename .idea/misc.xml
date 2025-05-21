@@ -5,7 +5,14 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/bolinSpringAppGroup1/springStudy1/pom.xml" />
+        <option value="$PROJECT_DIR$/bolinSpringAppGroup1/myExternalLibraries/hutool-5-master/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/bolinSpringAppGroup1/myExternalLibraries/hutool/pom.xml" />
+      </set>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />
   </component>

@@ -7,19 +7,65 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="hutool-core" />
+        <module name="hutool-db" />
+        <module name="hutool-setting" />
+        <module name="hutool-cache" />
+        <module name="hutool-poi" />
+        <module name="hutool-bloomFilter" />
+        <module name="hutool-captcha" />
+        <module name="hutool-aop" />
+        <module name="hutool-cron" />
+        <module name="hutool-extra" />
+        <module name="hutool-all" />
+        <module name="hutool-system" />
+        <module name="hutool-socket" />
+        <module name="hutool-jwt" />
+        <module name="hutool-log" />
+        <module name="hutool-http" />
+        <module name="hutool-json" />
+        <module name="hutool-dfa" />
+        <module name="hutool-script" />
+        <module name="hutool-crypto" />
       </profile>
-      <profile name="Annotation profile for sprintStudy1" enabled="true">
+      <profile name="Annotation profile for bolin-root1" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="D:/study software install/2/maven/mvn-repo/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
-          <entry name="D:/study software install/2/maven/mvn-repo/org/mapstruct/mapstruct-processor/1.5.2.Final/mapstruct-processor-1.5.2.Final.jar" />
-          <entry name="D:/study software install/2/maven/mvn-repo/org/mapstruct/mapstruct/1.5.2.Final/mapstruct-1.5.2.Final.jar" />
+          <entry name="$PROJECT_DIR$/../repository/repository1/org/projectlombok/lombok/1.18.22/lombok-1.18.22.jar" />
+          <entry name="$PROJECT_DIR$/../repository/repository1/org/mapstruct/mapstruct-processor/1.5.2.Final/mapstruct-processor-1.5.2.Final.jar" />
+          <entry name="$PROJECT_DIR$/../repository/repository1/org/mapstruct/mapstruct/1.5.2.Final/mapstruct-1.5.2.Final.jar" />
         </processorPath>
-        <module name="sprintStudy1" />
+        <module name="sprintStudy1 (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="13" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="hutool-all" options="-Xlint:unchecked" />
+      <module name="hutool-aop" options="-Xlint:unchecked" />
+      <module name="hutool-bloomFilter" options="-Xlint:unchecked" />
+      <module name="hutool-bom" options="-Xlint:unchecked" />
+      <module name="hutool-cache" options="-Xlint:unchecked" />
+      <module name="hutool-captcha" options="-Xlint:unchecked" />
+      <module name="hutool-core" options="-Xlint:unchecked" />
+      <module name="hutool-cron" options="-Xlint:unchecked" />
+      <module name="hutool-crypto" options="-Xlint:unchecked" />
+      <module name="hutool-db" options="-Xlint:unchecked" />
+      <module name="hutool-dfa" options="-Xlint:unchecked" />
+      <module name="hutool-extra" options="-Xlint:unchecked" />
+      <module name="hutool-http" options="-Xlint:unchecked" />
+      <module name="hutool-json" options="-Xlint:unchecked" />
+      <module name="hutool-jwt" options="-Xlint:unchecked" />
+      <module name="hutool-log" options="-Xlint:unchecked" />
+      <module name="hutool-parent" options="-Xlint:unchecked" />
+      <module name="hutool-poi" options="-Xlint:unchecked" />
+      <module name="hutool-script" options="-Xlint:unchecked" />
+      <module name="hutool-setting" options="-Xlint:unchecked" />
+      <module name="hutool-socket" options="-Xlint:unchecked" />
+      <module name="hutool-system" options="-Xlint:unchecked" />
+    </option>
   </component>
 </project>
